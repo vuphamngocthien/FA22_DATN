@@ -19,7 +19,7 @@ export default function App() {
       User_name :" pham ngoc thein vu",
       User_picture: "dassads",
     });
-  };
+  }
   const pushDB = () => {
     push(ref(database, "User"), {
       hoten: "QuynhNhu",
