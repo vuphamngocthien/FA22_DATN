@@ -6,7 +6,7 @@ const ProfileStack = () => {
         <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
             <View style={styles.container}>
                 <View style={styles.user}>
-                    <Image style={styles.userImg} source={require('../testProject/assets/img/userImg1.png')}></Image>
+                    <Image style={styles.userImg} source={require('../../assets/userImg1.png')}></Image>
                     <View style={styles.userInfo}>
                         <View>
                           <Text style={styles.userName}>Le Ba Luan</Text>
@@ -21,7 +21,7 @@ const ProfileStack = () => {
                 </View>
                 <View style={styles.funtion}>
                     <View style={styles.language}>
-                        <Image style={styles.languageIcon} source={require('../testProject/assets/img/internet.png')}></Image>
+                        <Image style={styles.languageIcon} source={require('../../assets/internet.png')}></Image>
                         <View>
                           <Text style={styles.languageText}>Language</Text>
                         </View>
@@ -31,45 +31,45 @@ const ProfileStack = () => {
                         </select> */}
                     </View>
                     <View style={styles.mode}>
-                        <Image style={styles.modeIcon} source={require('../testProject/assets/img/dark-mode.png')}></Image>
+                        <Image style={styles.modeIcon} source={require('../../assets/dark-mode.png')}></Image>
                         <View>
                           <Text style={styles.modeText}>Mode</Text>
                         </View>
                         <Image style={styles.modeSwitch} ></Image>
                     </View>
                     <View style={styles.notifications}>
-                        <Image style={styles.notificationsIcon} source={require('../testProject/assets/img/notification.png')}></Image>
+                        <Image style={styles.notificationsIcon} source={require('../../assets/notification.png')}></Image>
                         <View>
                           <Text style={styles.notificationsText}>Notifications</Text>
                         </View>
                         <Image style={styles.notificationsSwitch} ></Image>
                     </View>
                     <View style={styles.favorite}>
-                        <Image style={styles.favoriteIcon} source={require('../testProject/assets/img/lover.png')}></Image>
+                        <Image style={styles.favoriteIcon} source={require('../../assets/lover.png')}></Image>
                         <View>
                           <Text style={styles.favoriteText}>Favorite</Text>
                         </View>
                     </View>
                     <View style={styles.history}>
-                        <Image style={styles.historyIcon} source={require('../testProject/assets/img/history.png')}></Image>
+                        <Image style={styles.historyIcon} source={require('../../assets/history.png')}></Image>
                         <View>
                           <Text style={styles.historyText}>History</Text>
                         </View>
                     </View>
                     <View style={styles.changePassword}>
-                        <Image style={styles.changePasswordIcon} source={require('../testProject/assets/img/password.png')}></Image>
+                        <Image style={styles.changePasswordIcon} source={require('../../assets/password.png')}></Image>
                         <View>
                           <Text style={styles.changePasswordText}>Change Password</Text>
                         </View>
                     </View>
                     <View style={styles.support}>
-                        <Image style={styles.supportIcon} source={require('../testProject/assets/img/support.png')}></Image>
+                        <Image style={styles.supportIcon} source={require('../../assets/support.png')}></Image>
                         <View>
                           <Text style={styles.supportText}>Support</Text>
                         </View>
                     </View>
                     <View style={styles.logout}>
-                        <Image style={styles.logoutIcon} source={require('../testProject/assets/img/logout.png')}></Image>
+                        <Image style={styles.logoutIcon} source={require('../../assets/logout.png')}></Image>
                         <View>
                           <Text style={styles.logoutText}>Logout</Text>
                         </View>
