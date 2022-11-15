@@ -3,13 +3,21 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { app } from "./Components/FirebaseConfig";
 import { getDatabase, ref, set , push } from "firebase/database";
-
+import Login from "./screens/authen/Login";
 export default function App() {
   const database = getDatabase();
 
   const setDB = () => {
     set(ref(database, "User"), {
-      hoten: "QuynhNhu",
+      Address: "ha noi",
+      Birth: "15/09/2002",
+      Email: "dasdd",
+      Money: 200,
+      Password: "QuynhNhu",
+      Phone_number: 123,
+      User_id: "us3",
+      User_name :" pham ngoc thein vu",
+      User_picture: "dassads",
     });
   };
   const pushDB = () => {
@@ -19,11 +27,7 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={pushDB}>
-        <Text>set DB</Text>
-      </TouchableOpacity>
-    </View>
+    <Login />
   );
 }
 
