@@ -3,28 +3,15 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { app } from "./Components/FirebaseConfig";
 import { getDatabase, ref, set , push } from "firebase/database";
+import Login from "./screens/authen/Login"
+import Sign_up from "./screens/authen/Sign_up";
+import Detailsproduct from "./screens/authen/Detailsproduct"
 
 export default function App() {
-  const database = getDatabase();
+  return <Detailsproduct/>
 
-  const setDB = () => {
-    set(ref(database, "User"), {
-      hoten: "QuynhNhu",
-    });
-  };
-  const pushDB = () => {
-    push(ref(database, "User"), {
-      hoten: "QuynhNhu",
-    });
-  };
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={pushDB}>
-        <Text>set DB</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  
+  
 }
 
 const styles = StyleSheet.create({

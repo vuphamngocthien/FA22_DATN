@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View,TextInput,Button,Image } from 'react-native';
-import React from 'react';
-const Register = () => {
+import React from "react";
+import { Text, StyleSheet, TextInput, Button, Image,View } from "react-native";
+
+
+
+function Sign_up(props) {
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
@@ -24,19 +27,19 @@ const Register = () => {
             </View>
             <View style={{flexDirection:'row',marginTop:24}}>
                     <Text>Have an account?</Text>
-                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:700}}>Sign In</Text>
+                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}}>Sign In</Text>
                 </View>
         </View>
     );
 }
 
-export default Register
+export default Sign_up;
 
 const styles = StyleSheet.create({
     parent: {
         display: "flex",
         alignItems: 'center',
-        paddingTop: '50px',
+        paddingTop: 50,
         
     },
     box: {
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
         marginTop: 16
     },
     email: {
-      
+        value: { Text },
         margin: 12,
         borderWidth: 1,
         width: 343,
@@ -66,23 +69,18 @@ const styles = StyleSheet.create({
         marginTop: 28,
         paddingLeft: 35,
         fontSize: 14,
-        fontWeight: 400,
+        fontWeight: "400",
         color: '#9098B1',
         borderRadius: 5
     },
     password: {
         marginTop: -18
     },
-    
-    
-    
     btn_signin: {
         width: 343,
         height: 57,
         borderRadius: 5,
         marginTop: 70,
-
-
     },
     line: {
         backgroundColor: '#EBF0FF',
@@ -92,9 +90,6 @@ const styles = StyleSheet.create({
         margin: 10
     },
     login_gg: {
-        // flexDirection:'row',
-        // alignItems:'center',
-        // justifyContent:'space-between',
         width: 343,
         height: 38,
         borderWidth: 1,
