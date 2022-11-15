@@ -1,12 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { app } from "./Components/FirebaseConfig";
+import { getDatabase, ref, set , push } from "firebase/database";
 
 export default function App() {
+  const database = getDatabase();
+
+  const setDB = () => {
+    set(ref(database, "User"), {
+      hoten: "QuynhNhu",
+    });
+  };
+  const pushDB = () => {
+    push(ref(database, "User"), {
+      hoten: "QuynhNhu",
+    });
+  };
+g
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <TouchableOpacity onPress={pushDB}>
+        <Text>set DB</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -14,8 +30,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
