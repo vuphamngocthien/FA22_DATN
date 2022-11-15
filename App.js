@@ -11,13 +11,13 @@ export default function App() {
     set(ref(database, "User"), {
       hoten: "QuynhNhu",
     });
-  };
+  }
   const pushDB = () => {
     push(ref(database, "User"), {
       hoten: "QuynhNhu",
     });
   };
-g
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={pushDB}>
