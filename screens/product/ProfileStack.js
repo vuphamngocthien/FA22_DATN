@@ -57,7 +57,7 @@ const ProfileStack = () => {
                         </View>
                     </View>
                     <View style={styles.changePassword}>
-                        <Image style={styles.changePasswordIcon} source={require('../../assets/password.png')}></Image>
+                        <Image style={styles.changePasswordIcon} source={require('../../assets/passwordcopy.png')}></Image>
                         <View>
                           <Text style={styles.changePasswordText}>Change Password</Text>
                         </View>

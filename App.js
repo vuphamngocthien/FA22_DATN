@@ -4,6 +4,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { app } from "./Components/FirebaseConfig";
 import { getDatabase, ref, set , push } from "firebase/database";
 import Login from "./screens/authen/Login";
+import ProfileStack from "./screens/product/ProfileStack";
+import ProductNavigation from "./screens/navigation/ProductNavigation";
+import { NavigationContainer } from '@react-navigation/native';
 export default function App() {
   const database = getDatabase();
 
@@ -25,9 +28,12 @@ export default function App() {
       hoten: "QuynhNhu",
     });
   };
-
   return (
-    <Login />
+    <NavigationContainer>
+    {
+    <ProductNavigation />
+}
+</NavigationContainer>
   );
 }
 
