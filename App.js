@@ -6,9 +6,13 @@ import { getDatabase, ref, set , push } from "firebase/database";
 import Login from "./screens/authen/Login";
 import ProfileStack from "./screens/product/ProfileStack";
 import ProductNavigation from "./screens/navigation/ProductNavigation";
+import authenNavigation from "./screens/navigation/authenNavigation";
 import { NavigationContainer } from '@react-navigation/native';
+import HomeStack from "./screens/product/HomeStack";
+
+
 export default function App() {
-  const database = getDatabase();
+  
 
   const setDB = () => {
     set(ref(database, "User"), {
@@ -29,12 +33,10 @@ export default function App() {
     });
   };
   return (
-    <NavigationContainer>
-    {
-    <ProductNavigation />
-}
-</NavigationContainer>
+    <HomeStack />
   );
+  
+  
 }
 
 const styles = StyleSheet.create({
