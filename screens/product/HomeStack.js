@@ -18,7 +18,13 @@ import React, {
 const HomeStack = (props) => {
   const numColumns = 2;
   const [refreshing, setRefreshing] = useState(false);
- za
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    onValue(ref(getDatabase(), "Products/"), (snapshot) => {
+      setData(Object.values(snapshot.val()));
+    });
+    console.log(data.length + ">>>");
+  }, []);
   const renderItem = ({ item }) => {
     const { name, price } = item;
     return (
