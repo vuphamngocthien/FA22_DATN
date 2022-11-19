@@ -16,7 +16,7 @@ const login =()=>{
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
-            <Text style={styles.welcome}>Welcome to CIliPhone</Text>
+            <Text style={styles.welcome}>Welcome to CiliPhone</Text>
             <Text style={styles.continue}>Sign in to continue</Text>
             <View >
                 <TextInput style={styles.email} placeholder="Your Email" />

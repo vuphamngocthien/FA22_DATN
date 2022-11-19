@@ -9,6 +9,7 @@ import ProductNavigation from "./screens/navigation/ProductNavigation";
 import authenNavigation from "./screens/navigation/authenNavigation";
 import { NavigationContainer } from '@react-navigation/native';
 import HomeStack from "./screens/product/HomeStack";
+import EditUserProfile from "./screens//user/EditUserProfile"
 
 
 export default function App() {
@@ -33,7 +34,7 @@ export default function App() {
     });
   };
   return (
-    <HomeStack />
+    <EditUserProfile />
   );
   
   
