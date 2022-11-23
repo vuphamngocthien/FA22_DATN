@@ -17,7 +17,7 @@ export default function App() {
       hoten: "QuynhNhu",
     });
   };
-g
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={pushDB}>
