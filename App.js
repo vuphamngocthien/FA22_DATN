@@ -2,18 +2,16 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { app } from "./Components/FirebaseConfig";
-import { getDatabase, ref, set , push } from "firebase/database";
+import { getDatabase, ref, set, push } from "firebase/database";
 import Login from "./screens/authen/Login";
 import ProfileStack from "./screens/product/ProfileStack";
 import ProductNavigation from "./screens/navigation/ProductNavigation";
 import authenNavigation from "./screens/navigation/authenNavigation";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
 import HomeStack from "./screens/product/HomeStack";
-
+import Order from "./screens/product/Order";
 
 export default function App() {
-  
-
   const setDB = () => {
     set(ref(database, "User"), {
       Address: "ha noi",
@@ -23,20 +21,16 @@ export default function App() {
       Password: "QuynhNhu",
       Phone_number: 123,
       User_id: "us3",
-      User_name :" pham ngoc thein vu",
+      User_name: " pham ngoc thein vu",
       User_picture: "dassads",
     });
-  }
+  };
   const pushDB = () => {
     push(ref(database, "User"), {
       hoten: "QuynhNhu",
     });
   };
-  return (
-    <HomeStack />
-  );
-  
-  
+  return <Order />;
 }
 
 const styles = StyleSheet.create({
