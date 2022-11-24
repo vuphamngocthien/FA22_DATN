@@ -99,9 +99,9 @@ const Detailsproduct = () => {
                     <CustomRatingBar/>
                 </View>
 
-                <View style={{ top: 40,height:800 }} >
+                <View style={{ top: 40,height:400}} >
                     <NavigationContainer>
-                        <Tap.Navigator>
+                        <Tap.Navigator style={{backgroundColor:'rgb(240, 240, 240)'}}>
                             <Tap.Screen name='Details' component={Details} />
                             <Tap.Screen name='Shops' component={Shops} />
                             <Tap.Screen name='Contact' component={Contact} />
@@ -122,7 +122,7 @@ export default Detailsproduct;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'rgb(250, 250, 250)',
+        backgroundColor: 'white',
         alignItems: 'center',
         height: '100%',
         width: '100%',
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         // position:'absolute',
         width: '100%',
         height: 470,
-        backgroundColor: 'white',
+        backgroundColor: 'rgb(240, 240, 240)',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         boxShadow: '0px 5px 50px black',

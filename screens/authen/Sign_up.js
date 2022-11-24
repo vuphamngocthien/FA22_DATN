@@ -1,33 +1,52 @@
-import React from "react";
-import { Text, StyleSheet, TextInput, Button, Image,View } from "react-native";
+import React,{useState} from "react";
+import { Text, StyleSheet, TextInput, Button, Image,View,TouchableOpacity } from "react-native";
+import { getDatabase, ref, set , push,onValue } from "firebase/database";
 
 
+function Sign_up({navigation}) {
+    const [Username,setUsername]=useState('');
+    const [UserEmail,setUserEmail]=useState('');
+    const [UserPassword,setUserPassword]=useState('');
+const Sign_up=() =>{
+    push(ref(getDatabase(),"User"),{
+        User_id:"null",
+        User_name:Username,
+        Email:UserEmail,
+        Password:UserPassword,
+        Birth:"null",
+        User_picture:"null",
+        Address:"null",
+        Phone_number:"null",
+        Money:"null"
+    });
+    
+}
 
-function Sign_up(props) {
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
             <Text style={styles.welcome}>Let's Get Started</Text>
             <Text style={styles.continue}>Create an new account</Text>
             <View >
-                <TextInput style={styles.email} placeholder="Full Name" />
+                <TextInput style={styles.email} placeholder="Full Name"  onChangeText={setUsername} />
                 <Image source={require('../../assets/User.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,}} />
             </View>
             <View >
-                <TextInput style={styles.email} placeholder="Your Email" />
+                <TextInput style={styles.email} placeholder="Your Email" value={UserEmail}  onChangeText={setUserEmail} />
                 <Image source={require('../../assets/Message.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,marginBottom:20}} />
             </View>
             <View style={styles.password}>
-                <TextInput style={styles.email} placeholder="Password" />
+                <TextInput style={styles.email} placeholder="Password" value={UserPassword}  onChangeText={setUserPassword}/>
                 <Image source={require('../../assets/Password.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,marginBottom:20}} />
             </View>
-            
+            <TouchableOpacity >
             <View style={styles.btn_signin}>
-                <Button title='Sign In' color='#FF6E4E' />
+                <Button title='Sign Up' color='#FF6E4E' onPress={Sign_up} />
             </View>
+            </TouchableOpacity>
             <View style={{flexDirection:'row',marginTop:24}}>
                     <Text>Have an account?</Text>
-                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}}>Sign In</Text>
+                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}} onPress={()=>navigation.navigate('Login')}>Sign In</Text>
                 </View>
         </View>
     );

@@ -1,29 +1,45 @@
-import React from "react";
+import React,{useState} from "react";
 import { Text, StyleSheet,View, TextInput,  Button, Image } from "react-native";
 import CheckBox from 'expo-checkbox';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getDatabase, ref, set , push } from "firebase/database";
+import { NavigationContainer } from '@react-navigation/native';
+import { getDatabase, ref, set , push,onValue } from "firebase/database";
+function Login({navigation}) {
+    const [Username,setUsername]= useState('');
+    const [Password,setPassword]=useState('');
+    const [data,setData]=useState([]);
 
-// const setDB = () => {
-//     set(ref(database, "User"), {
-//       hoten: "QuynhNhu",
-//     });
-//   };
-function Login(props) {
-const Login =()=>{
+    const Login=() =>{
+      onValue(ref(getDatabase(),"User/"),(snapshot)=>{
+        setData(Object.values(snapshot.val()));
+        for(var i=0;i<=data.length;i++){
+            if( Username== data[i].Email && Password ==data[i].Password){
+                console.log('dang nhap thanh cong'+[data[i].Email,data[i].Password]);
+               break;
+            }else{
+                console.log('dang nhap that bai'+data[i].Email)
+            }
+        }
+        
+      })
+    }
 
-}
+    
+
+     
+
+     
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
             <Text style={styles.welcome}>Welcome to CIliPhone</Text>
             <Text style={styles.continue}>Sign in to continue</Text>
             <View >
-                <TextInput style={styles.email} placeholder="Your Email" />
+                <TextInput style={styles.email} placeholder="Your Email" value={Username} onChangeText={setUsername}/>
                 <Icon name={"email-outline"} style={{ fontSize: 26, position: "absolute", left: 20, bottom: 19 }} />
             </View>
             <View style={styles.password}>
-                <TextInput style={styles.email} placeholder="Password" />
+                <TextInput style={styles.email} placeholder="Password" value={Password} onChangeText={setPassword} />
                 <Icon name={"lock-outline"} style={{ fontSize: 26, position: "absolute", left: 20, bottom: 19 }} />
             </View>
             <View style={styles.rm_password}>
@@ -31,7 +47,7 @@ const Login =()=>{
                 <Text style={styles.text_rm}>Remember Password</Text>
             </View>
             <View style={styles.btn_signin}>
-                <Button title='Sign In' color='#FF6E4E' onPress={login} />
+                <Button title='Sign In' color='#FF6E4E' onPress={Login} />
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 5 }}>
                 <View style={styles.line}></View>
@@ -42,7 +58,8 @@ const Login =()=>{
                 <Button
                     color='rgba(235, 240, 255, 1)'
                     title="Sign with Google"
-                    titleStyle={{ fontWeight: "700", color: 'black' }} />
+                    titleStyle={{ fontWeight: "700", color: 'black' }} 
+                    />
                 <Image source={require('../../assets/Google.png')} style={{ width: 25, height: 25, marginTop: -30 }} />
             </View>
             <View style={styles.login_gg}>
@@ -55,7 +72,7 @@ const Login =()=>{
                 <Text style={{ color: 'rgba(255, 110, 78, 1)', fontWeight: "700", fontSize: 12,marginTop:13 }}>Forgot Password</Text>
                 <View style={{flexDirection:'row',marginTop:13}}>
                     <Text>Don't have an account?</Text>
-                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}}>Register</Text>
+                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}} onPress={()=> navigation.navigate('Signup')}>Register</Text>
                 </View>
         </View>
     );
