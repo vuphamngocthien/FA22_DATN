@@ -9,13 +9,15 @@ import Detailsproduct from "./screens/authen/Detailsproduct"
 import { NavigationContainer } from "@react-navigation/native";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeStack from "./screens/product/HomeStack";
 
 const Stack=createNativeStackNavigator();
 export default function App() {
   return(
     <NavigationContainer>
-       <Stack.Navigator screenOptions={{headerShown:false}}  initialRouteName="Login">
+       <Stack.Navigator screenOptions={{headerShown:false}}  initialRouteName="HomeStack">
         <Stack.Screen  name='Login' component={Login}/>
+        <Stack.Screen name='HomeStack' component={HomeStack}/>
         <Stack.Screen name='Signup' component={Sign_up}/>
        </Stack.Navigator>
     </NavigationContainer>

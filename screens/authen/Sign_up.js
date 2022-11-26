@@ -7,8 +7,9 @@ function Sign_up({navigation}) {
     const [Username,setUsername]=useState('');
     const [UserEmail,setUserEmail]=useState('');
     const [UserPassword,setUserPassword]=useState('');
+    const [data,Setdata]=useState([]);
 const Sign_up=() =>{
-    push(ref(getDatabase(),"User"),{
+    push(ref(getDatabase(),"User/"),{
         User_id:"null",
         User_name:Username,
         Email:UserEmail,
@@ -21,7 +22,9 @@ const Sign_up=() =>{
     });
     
 }
-
+onValue(ref(getDatabase(),"User/"),(snapshot)=>{
+    Setdata(Object.values(snapshot.values()));
+})
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
