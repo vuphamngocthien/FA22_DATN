@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { getDatabase, ref, set, push, onValue } from "firebase/database";
 
+<<<<<<< HEAD
 function Sign_up({ props }) {
   const [Username, setUsername] = useState("");
   const [UserEmail, setUserEmail] = useState("");
@@ -26,6 +27,25 @@ function Sign_up({ props }) {
       Address: "null",
       Phone_number: "null",
       Money: "null",
+=======
+
+function Sign_up(props) {
+    const [Username,setUsername]=useState('');
+    const [UserEmail,setUserEmail]=useState('');
+    const [UserPassword,setUserPassword]=useState('');
+    const [data,Setdata]=useState([]);
+const Sign_up=() =>{
+    push(ref(getDatabase(),"User/"),{
+        User_id:"null",
+        User_name:Username,
+        Email:UserEmail,
+        Password:UserPassword,
+        Birth:"null",
+        User_picture:"null",
+        Address:"null",
+        Phone_number:"null",
+        Money:"null"
+>>>>>>> master/dev_Tang
     });
   };
   onValue(ref(getDatabase(), "User/"), (snapshot) => {

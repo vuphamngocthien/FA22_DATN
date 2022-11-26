@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
+=======
+import React, { useState,useEffect, createContext, Children,useContext } from "react";
+>>>>>>> master/dev_Tang
 import { Text, StyleSheet, View, TextInput, Button, Image } from "react-native";
 import CheckBox from "expo-checkbox";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import ProductNavigation from "../navigation/ProductNavigation";
 import { getDatabase, ref, set, push, onValue } from "firebase/database";
+<<<<<<< HEAD
 function Login({ props }) {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
@@ -26,6 +31,26 @@ function Login({ props }) {
       } else {
         console.log("dang nhap that bai" + data[i].Email);
       }
+=======
+import { UserContext } from "../../Components/UserContext";
+export const LoginContext =createContext();
+
+export const Login=(props)=> {
+    const [Username, setUsername] = useState('');
+    const [Password, setPassword] = useState('');
+    
+    const {login} =useContext(UserContext);
+    
+
+    const Login = async() => {
+        const res =await login(Username,Password);
+        if(res ==true){
+            console.log('dang nhap thanh cong');
+        }else{
+            console.log('dang nhap that bai');
+            console.log(res);
+        }
+>>>>>>> master/dev_Tang
     }
   };
   return (
@@ -175,9 +200,26 @@ const login =()=>{
                 </View>
         </View>
     );
+<<<<<<< HEAD
 >>>>>>> master/dev_Luan
 }
 
+=======
+
+    
+}
+   
+    
+    
+    
+
+
+
+
+
+    
+
+>>>>>>> master/dev_Tang
 export default Login;
 
 const styles = StyleSheet.create({
