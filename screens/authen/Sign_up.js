@@ -3,7 +3,7 @@ import { Text, StyleSheet, TextInput, Button, Image,View,TouchableOpacity } from
 import { getDatabase, ref, set , push,onValue } from "firebase/database";
 
 
-function Sign_up({navigation}) {
+function Sign_up(props) {
     const [Username,setUsername]=useState('');
     const [UserEmail,setUserEmail]=useState('');
     const [UserPassword,setUserPassword]=useState('');

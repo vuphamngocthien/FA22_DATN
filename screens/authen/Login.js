@@ -1,32 +1,27 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, createContext, Children,useContext } from "react";
 import { Text, StyleSheet, View, TextInput, Button, Image } from "react-native";
 import CheckBox from 'expo-checkbox';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationContainer } from '@react-navigation/native';
 import { getDatabase, ref, set, push, onValue } from "firebase/database";
-function Login({ navigation }) {
+import { UserContext } from "../../Components/UserContext";
+export const LoginContext =createContext();
+
+export const Login=(props)=> {
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
-    const [data, setData] = useState([]);
+    
+    const {login} =useContext(UserContext);
+    
 
-    useEffect(()=>{
-        onValue(ref(getDatabase(), "User"), (snapshot) => {
-            setData(Object.values(snapshot.val()));
-            });
-    },[]);
-
-
-    const Login = () => {
-        
-            for (var i = 0; i <= data.length; i++) {
-                if (Username == data[i].Email && Password == data[i].Password) {
-                    console.log('dang nhap thanh cong' + [data[i].Email, data[i].Password]);
-                    break;
-                } else {
-                    console.log('dang nhap that bai' + data[i].Email)
-                }
-            }
-        
+    const Login = async() => {
+        const res =await login(Username,Password);
+        if(res ==true){
+            console.log('dang nhap thanh cong');
+        }else{
+            console.log('dang nhap that bai');
+            console.log(res);
+        }
     }
     return (
         <View style={styles.parent}>
@@ -75,8 +70,9 @@ function Login({ navigation }) {
             </View>
         </View>
     );
-}
 
+    
+}
    
     
     
