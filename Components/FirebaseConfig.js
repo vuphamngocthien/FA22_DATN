@@ -1,5 +1,5 @@
-
-import  { initializeApp } from "firebase/app";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -9,11 +9,12 @@ import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyDoNjnsCilRWkDT3pY0a7NnubMgE8wYyFs",
   authDomain: "fa22datn.firebaseapp.com",
+  databaseURL: "https://fa22datn-default-rtdb.firebaseio.com",
   projectId: "fa22datn",
   storageBucket: "fa22datn.appspot.com",
   messagingSenderId: "876813984328",
   appId: "1:876813984328:web:bed6e9203bd62f3f666e7d",
-  measurementId: "G-2VEZ7L86E0"
+  measurementId: "G-2VEZ7L86E0",
 };
 
 // Initialize Firebase

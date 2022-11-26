@@ -1,29 +1,23 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { app } from "./Components/FirebaseConfig";
-<<<<<<< HEAD
-import { getDatabase, ref, set, push } from "firebase/database";
-import Login from "./screens/authen/Login";
+
 import ProfileStack from "./screens/product/ProfileStack";
 import ProductNavigation from "./screens/navigation/ProductNavigation";
 import authenNavigation from "./screens/navigation/authenNavigation";
-import { NavigationContainer } from "@react-navigation/native";
+
 import HomeStack from "./screens/product/HomeStack";
 import Order from "./screens/product/Order";
-=======
-import { getDatabase, ref, set , push } from "firebase/database";
-import Login from "./screens/authen/Login"
+import { getDatabase, ref, set, push } from "firebase/database";
+import Login from "./screens/authen/Login";
 import Sign_up from "./screens/authen/Sign_up";
-import Detailsproduct from "./screens/authen/Detailsproduct"
+import Detailsproduct from "./screens/authen/Detailsproduct";
 import { NavigationContainer } from "@react-navigation/native";
->>>>>>> master/dev_Tang
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const Stack=createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 export default function App() {
-<<<<<<< HEAD
   const setDB = () => {
     set(ref(database, "User"), {
       Address: "ha noi",
@@ -42,22 +36,7 @@ export default function App() {
       hoten: "QuynhNhu",
     });
   };
-  return <Order />;
-=======
-  return(
-    <NavigationContainer>
-       <Stack.Navigator screenOptions={{headerShown:false}}  initialRouteName="Login">
-        <Stack.Screen  name='Login' component={Login}/>
-        <Stack.Screen name='Signup' component={Sign_up}/>
-       </Stack.Navigator>
-    </NavigationContainer>
-    )
-  
-  
-
-  
-  
->>>>>>> master/dev_Tang
+  return <Login />;
 }
 
 const styles = StyleSheet.create({
