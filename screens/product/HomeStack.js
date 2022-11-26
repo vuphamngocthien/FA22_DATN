@@ -16,9 +16,15 @@ import React, {
   Animated,
 } from "react";
 const HomeStack = (props) => {
+<<<<<<< HEAD
   const { navigation } = props;
   const numColumns = 2;
   const [refreshing, setRefreshing] = useState(false);
+=======
+  const numColumns = 2;
+  const [refreshing, setRefreshing] = useState(false);
+
+>>>>>>> master/dev_Luan
   const [data, setData] = useState([]);
   useEffect(() => {
     onValue(ref(getDatabase(), "Products/"), (snapshot) => {
@@ -26,6 +32,10 @@ const HomeStack = (props) => {
     });
     console.log(data.length + ">>>");
   }, []);
+<<<<<<< HEAD
+=======
+
+>>>>>>> master/dev_Luan
   const renderItem = ({ item }) => {
     const { name, price } = item;
     return (

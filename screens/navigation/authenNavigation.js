@@ -9,7 +9,11 @@ import Sign_up from "../authen/Sign_up";
 const authenNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+<<<<<<< HEAD
       <Stack.Screen name="Login " component={Login} />
+=======
+      <Stack.Screen name="Login" component={Login} />
+>>>>>>> master/dev_Luan
       <Stack.Screen name="Sign_up" component={Sign_up} />
     </Stack.Navigator>
   );

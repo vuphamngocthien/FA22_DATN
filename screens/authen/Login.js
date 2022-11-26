@@ -10,6 +10,7 @@ function Login({ props }) {
   const [Password, setPassword] = useState("");
   const [data, setData] = useState([]);
 
+<<<<<<< HEAD
   useEffect(() => {
     onValue(ref(getDatabase(), "User/"), (snapshot) => {
       setData(Object.values(snapshot.val()));
@@ -118,6 +119,63 @@ function Login({ props }) {
       </View>
     </View>
   );
+=======
+// const setDB = () => {
+//     set(ref(database, "User"), {
+//       hoten: "QuynhNhu",
+//     });
+//   };
+function Login(props) {
+const login =()=>{
+
+}
+    return (
+        <View style={styles.parent}>
+            <View style={styles.box}></View>
+            <Text style={styles.welcome}>Welcome to CiliPhone</Text>
+            <Text style={styles.continue}>Sign in to continue</Text>
+            <View >
+                <TextInput style={styles.email} placeholder="Your Email" />
+                <Icon name={"email-outline"} style={{ fontSize: 26, position: "absolute", left: 20, bottom: 19 }} />
+            </View>
+            <View style={styles.password}>
+                <TextInput style={styles.email} placeholder="Password" />
+                <Icon name={"lock-outline"} style={{ fontSize: 26, position: "absolute", left: 20, bottom: 19 }} />
+            </View>
+            <View style={styles.rm_password}>
+                <CheckBox style={styles.checkbox} />
+                <Text style={styles.text_rm}>Remember Password</Text>
+            </View>
+            <View style={styles.btn_signin}>
+                <Button title='Sign In' color='#FF6E4E' onPress={login} />
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 5 }}>
+                <View style={styles.line}></View>
+                <Text style={{ color: '#9098B1', paddingLeft: 5 }}>OR</Text>
+                <View style={styles.line}></View>
+            </View>
+            <View style={styles.login_gg}>
+                <Button
+                    color='rgba(235, 240, 255, 1)'
+                    title="Sign with Google"
+                    titleStyle={{ fontWeight: "700", color: 'black' }} />
+                <Image source={require('../../assets/Google.png')} style={{ width: 25, height: 25, marginTop: -30 }} />
+            </View>
+            <View style={styles.login_gg}>
+                <Button
+                    color='rgba(235, 240, 255, 1)'
+                    title="Sign with facebook"
+                    titleStyle={{ fontWeight: "700", color: 'black' }} />
+                <Image source={require('../../assets/Facebook.png')} style={{ width: 25, height: 25, marginTop: -30 }} />
+            </View>
+                <Text style={{ color: 'rgba(255, 110, 78, 1)', fontWeight: "700", fontSize: 12,marginTop:13 }}>Forgot Password</Text>
+                <View style={{flexDirection:'row',marginTop:13}}>
+                    <Text>Don't have an account?</Text>
+                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}}>Register</Text>
+                </View>
+        </View>
+    );
+>>>>>>> master/dev_Luan
 }
 
 export default Login;
