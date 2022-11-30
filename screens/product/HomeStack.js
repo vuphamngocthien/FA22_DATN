@@ -18,6 +18,10 @@ import React, {
 const HomeStack = (props) => {
   const numColumns = 2;
   const [refreshing, setRefreshing] = useState(false);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/dev_Luan
   const [data, setData] = useState([]);
   useEffect(() => {
     onValue(ref(getDatabase(), "Products/"), (snapshot) => {
@@ -25,6 +29,10 @@ const HomeStack = (props) => {
     });
     console.log(data.length + ">>>");
   }, []);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/dev_Luan
   const renderItem = ({ item }) => {
     const { name, price } = item;
     return (

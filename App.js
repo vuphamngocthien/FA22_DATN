@@ -7,12 +7,16 @@ import ProductNavigation from "./screens/navigation/ProductNavigation";
 import authenNavigation from "./screens/navigation/authenNavigation";
 
 import HomeStack from "./screens/product/HomeStack";
+<<<<<<< HEAD
 import Order from "./screens/product/Order";
 import { getDatabase, ref, set, push } from "firebase/database";
 import Login from "./screens/authen/Login";
 import Sign_up from "./screens/authen/Sign_up";
 import Detailsproduct from "./screens/authen/Detailsproduct";
 import { NavigationContainer } from "@react-navigation/native";
+=======
+import EditUserProfile from "./screens//user/EditUserProfile"
+>>>>>>> origin/dev_Luan
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -36,7 +40,15 @@ export default function App() {
       hoten: "QuynhNhu",
     });
   };
+<<<<<<< HEAD
   return <Login />;
+=======
+  return (
+    <EditUserProfile />
+  );
+  
+  
+>>>>>>> origin/dev_Luan
 }
 
 const styles = StyleSheet.create({
