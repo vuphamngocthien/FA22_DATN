@@ -70,12 +70,12 @@ function Details(props) {
             </View>
 
 
-            <View>
+             <View>
                 <TouchableOpacity style={styles.btnAddtoCart}>
                     <Text style={styles.btnATC_text}>Add to Cart</Text>
                     <Text style={styles.btnATC_text}>$1,5000.00</Text>
                 </TouchableOpacity>
-            </View>
+            </View> 
         </View>
 
     );
@@ -92,13 +92,14 @@ const styles = StyleSheet.create({
         //  alignItems: 'center',
         justifyContent: 'space-between',
         padding: 10,
-        top: 30
+        
         //  flex:1
     },
     container: {
         flexDirection: 'column',
         height: 182,
         width: "100%",
+
     },
     capacity: {
         flexDirection: 'row',
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FF6E4E'
     },
     middle:{
-        bottom:30,
+        bottom:80,
         marginVertical:10
     },
     gbtext: {
@@ -146,14 +147,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        width: 355,
+        width: 250,
         height: 54,
         backgroundColor: '#FF6E4E',
         borderRadius: 10,
-        marginHorizontal: 15,
+        marginHorizontal: 60,
+        bottom:90
     },
     btnATC_text: {
-        fontSize: 28,
+        fontSize: 20,
         fontWeight: '700',
         color: '#FFFFFF',
         margin: 10

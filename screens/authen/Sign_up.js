@@ -1,16 +1,28 @@
-import React,{useState} from "react";
+import React,{useContext, useState,useEffect} from "react";
 import { Text, StyleSheet, TextInput, Button, Image,View,TouchableOpacity } from "react-native";
 import { getDatabase, ref, set , push,onValue } from "firebase/database";
-
+import {UserContext} from '../../Components/UserContext'
 
 function Sign_up(props) {
+    const {navigation}=props;
     const [Username,setUsername]=useState('');
     const [UserEmail,setUserEmail]=useState('');
     const [UserPassword,setUserPassword]=useState('');
-    const [data,Setdata]=useState([]);
-const Sign_up=() =>{
-    push(ref(getDatabase(),"User/"),{
-        User_id:"null",
+    const [data,setdata]=useState([]);
+   const {user_idud,cart_ud,user_id}=useContext(UserContext);
+    var a=0;
+
+
+   useEffect(()=>{
+    onValue(ref(getDatabase(), "User"), (snapshot) => {
+        setdata(Object.values(snapshot.val()));
+      });
+    },[]);
+const Sign_up = () =>{
+    a=data.length+1;
+    var b='us'+a;
+    set(ref(getDatabase(),"User/"+b),{
+        User_id:b,
         User_name:Username,
         Email:UserEmail,
         Password:UserPassword,
@@ -20,11 +32,17 @@ const Sign_up=() =>{
         Phone_number:"null",
         Money:"null"
     });
+    console.log('lllll',user_idud);
+    // set(ref(getDatabase(),"Cart/"+cart_ud),{
+    //    Cart_id:cart_ud,
+    //    Total_price:'2000',
+    //    User_id:user_id,
+    //    all_product:{},
+
+    // });
     
 }
-onValue(ref(getDatabase(),"User/"),(snapshot)=>{
-    Setdata(Object.values(snapshot.values()));
-})
+
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
@@ -49,7 +67,7 @@ onValue(ref(getDatabase(),"User/"),(snapshot)=>{
             </TouchableOpacity>
             <View style={{flexDirection:'row',marginTop:24}}>
                     <Text>Have an account?</Text>
-                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}} onPress={()=>navigation.navigate('Login')}>Sign In</Text>
+                    <Text style={{color:'rgba(255, 110, 78, 1)',fontWeight:"700"}} onPress={()=>navigation.goBack()}>Sign In</Text>
                 </View>
         </View>
     );

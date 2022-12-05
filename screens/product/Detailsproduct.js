@@ -1,22 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect, useContext } from "react";
 import { Text, StyleSheet, View, Image, FlatList, SafeAreaView, Animated, PanResponder, Dimensions,TouchableOpacity } from "react-native";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import Details from "./category_pages/Details";
-import Shops from "./category_pages/Shop";
-import Contact from "./category_pages/Contact";
-import Features from "./category_pages/Features";
+import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import Details from "../authen/category_pages/Details";
+import Shops from "../authen/category_pages/Shop";
+import Contact from "../authen/category_pages/Contact";
+import Features from "../authen/category_pages/Features";
+import { UserContext } from "../../Components/UserContext";
 const Tap = createMaterialTopTabNavigator();
-const data = [
+
+
+
+const dataaa = [
     {
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2019/05/hinh-anh-doremon-tha-bong-bay.jpg'
-    },
-    {
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2019/05/hinh-anh-doremon-tha-bong-bay.jpg'
-    },
-    {
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2019/05/hinh-anh-doremon-tha-bong-bay.jpg'
-    },
+        image: 'https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/laptop.jpeg?alt=media&token=04d5fd06-74a6-469b-a13b-7394fbd136e2'
+    }
 ]
 
 
@@ -34,15 +33,16 @@ const colors = {
     grey: '#a9a9a9'
 }
 
-const Detailsproduct = () => {
-    // const stars = Array(5).fill(0);
-    // const [currentValue, setCurrentValue] = React.useState(0);
-    // const [hoverValue, setHoverValue] = React.useState(undefined);
-    // const handleClick = value => {
-    //     setCurrentValue(value);
-    // }
+
+
+
+const Detailsproduct = (props,{navigation,route}) => {
+    const [Data,setdata]=useState([]);
+    const [meta,setmeta]=useState([]);
     const [defaultRating,setdefaultRating] =useState(2);
     const [maxRating,setmaxRating]=useState([1,2,3,4,5])
+    const{route:{params:{id,data}}}= props;
+    const {setrate} =useContext(UserContext);
     const startImgFilled='https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png'
     const startImgCorner='https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png'
     const CustomRatingBar= () =>{
@@ -54,7 +54,7 @@ const Detailsproduct = () => {
                             <TouchableOpacity
                             activeOpacity={0.7}
                             key={item}
-                            onPress={() => setdefaultRating(item)}
+                            onPress={() => danhgia(item)}
                             >
                                 <Image
                                 style={styles.starImgStyle}
@@ -70,13 +70,17 @@ const Detailsproduct = () => {
             </View>
         )
     }
+const danhgia=(a)=>{
+    setrate(a);
+    setdefaultRating(a);
+}
     return (
         <View style={styles.container}>
             <View style={styles.appbar}>
                 <View style={styles.iconback}>
                     <Image source={require('../../assets/Vectoor.png')} style={{ width: 10, height: 18, zIndex: 10, top: 10 }}></Image>
                 </View>
-                <Text style={{ color: '#010035', fontFamily: 'Rubik', fontWeight: "bold", fontSize: 18, fontStyle: "normal" }}>Product Detail</Text>
+                <Text style={{ color: '#010035', fontWeight: "bold", fontSize: 18, fontStyle: "normal" }}>Product Detail</Text>
             </View>
                 <FlatList
                     data={data}
@@ -84,13 +88,13 @@ const Detailsproduct = () => {
                     renderItem={({ item, index }) =>
                     (
                         <View style={{ margin: 10, boxShadow: '0px 10px 20px rgba(55, 78, 136, 0.16)', borderRadius: 18 }}>
-                            <Image source={{ uri: item.image }} style={[{ width: 250, height: 300, borderRadius: 18 }]} />
+                            <Image source={{ uri: item.Product_picture }} style={{ width: 250, height: 250, borderRadius: 18 }} />
                         </View>
                     )}
                 />
             <View style={styles.category}>
                 <View style={styles.title_product}>
-                    <Text style={{ width: 231, height: 28, fontFamily: 'Rubik', fontWeight: 'bold', fontSize: 24, color: '#010035' }}>Galaxy Note 20 Ultra</Text>
+                    <Text style={{ width: 231, height: 28, fontWeight: 'bold', fontSize: 24, color: '#010035' }}>{data.Product_name}</Text>
                     <View style={styles.like}>
                         <Image source={require('../../assets/Like.png')} style={{ width: 15, height: 13 }} />
                     </View>
@@ -98,19 +102,17 @@ const Detailsproduct = () => {
                 <View style={{ top: 35, left: -50 }}>
                     <CustomRatingBar/>
                 </View>
-
                 <View style={{ top: 40,height:400}} >
-                    <NavigationContainer>
-                        <Tap.Navigator style={{backgroundColor:'rgb(240, 240, 240)'}}>
-                            <Tap.Screen name='Details' component={Details} />
+                    <NavigationContainer independent={true}>
+                        <Tap.Navigator style={{backgroundColor:'red'}}>
+                            <Tap.Screen name='Details' component={Details}/>
                             <Tap.Screen name='Shops' component={Shops} />
-                            <Tap.Screen name='Contact' component={Contact} />
+                            <Tap.Screen name='Comment' component={Contact} initialParams={{data,defaultRating}}/>
                             <Tap.Screen name='Features' component={Features} />
                         </Tap.Navigator>
                     </NavigationContainer>
-
                 </View>
-            </View>
+            </View> 
         </View>
     )
 }
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     category: {
         // position:'absolute',
         width: '100%',
-        height: 470,
+        height: 380,
         backgroundColor: 'rgb(240, 240, 240)',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,

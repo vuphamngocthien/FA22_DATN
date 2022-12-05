@@ -6,6 +6,7 @@ import {
     TextInput,
     FlatList,
     Dimensions,
+    Pressable
 } from "react-native";
 import { getDatabase, ref, onValue, onChildAdded } from "firebase/database";
 import React, {
@@ -14,22 +15,48 @@ import React, {
     useContext,
     ScrollView,
     Animated,
+    createContext,
 } from "react";
-const HomeStack = (props) => {
+import { UserContext } from "../../Components/UserContext";
+import { ProductContext } from "../../Components/ProductContext";
+export const HomeStack = ({navigation,routes}) => {
     const numColumns = 2;
+    const numColumns2 = 10;
+    const [data2, setData2] = useState([]);
+  
+    const [Category, setCategory] = useState([]);
+    const { getProductBycate } = useContext(ProductContext);
+    
     const [refreshing, setRefreshing] = useState(false);
     const [data, setData] = useState([]);
     useEffect(() => {
         onValue(ref(getDatabase(), "Products/"), (snapshot) => {
             setData(Object.values(snapshot.val()));
+            setData2(Object.values(snapshot.val()));
         });
-        console.log(data.length + ">>>");
+        onValue(ref(getDatabase(), "Category/"), (snapshot) => {
+      setCategory(Object.values(snapshot.val()));
+    });
+        
     }, []);
+    const getProductByCategory = async (cate_id) => {
+        setData2([]);
+        if (cate_id == 0) {
+          setData2(data);
+        } else {
+          const res = await getProductBycate(cate_id);
+          setData2(res);
+        }
+        onRefresh();
+      };
+
     const renderItem = ({ item }) => {
-        const { Product_name, price } = item;
+        const { Product_name, price,Product_id,data } = item;
+        console.log("-------------",item); 
         return (
             <View style={styles.itemcontainer}>
                 <View style={styles.imageItem}>
+                    <Pressable onPress={()=>navigation.navigate('Detailsproduct',{id:Product_id,data:item})}>
                     <Image
                         resizeMode="cover"
                         style={{ width: 127, height: 125 }}
@@ -37,6 +64,7 @@ const HomeStack = (props) => {
                             uri: "https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/laptop2.jfif?alt=media&token=2be9e403-737a-45b6-b0da-447c0425db92",
                         }}
                     />
+                    </Pressable> 
                 </View>
                 <View style={{ flexDirection: 'column', left:-8,top:-25 }}>
                 <Text style={{fontWeight:"700",fontSize:16,color:'#010035'}}>${price} </Text>
@@ -46,6 +74,28 @@ const HomeStack = (props) => {
             </View>
         );
     };
+    const renderItem2 = ({ item }) => {
+        if (item == null) {
+          return <Text>Nothing</Text>;
+        } else {
+          const { Category_image, Category_name, Category_id } = item;
+          return (
+            <Pressable onPress={() => getProductByCategory(Category_id)}>
+              <View style={styles.Category}>
+                <View style={styles.CategoryImage}>
+                  <Image
+                    style={styles.Imagecon}
+                    resizeMode="cover"
+                    source={{ uri: Category_image }}
+                  />
+                </View>
+                <Text>{Category_name}</Text>
+              </View>
+            </Pressable>
+          );
+        }
+      };
+    
 
     const onRefresh = () => {
         setRefreshing(true);
@@ -71,56 +121,14 @@ const HomeStack = (props) => {
             </View>
 
             <View style={styles.IconCategory}>
-                <View style={styles.Category}>
-                    <View style={styles.CategoryImage}>
-                        <Image
-                            style={styles.Imagecon}
-                            resizeMode="cover"
-                            source={require("../../assets/images/dienthoai.png.png")}
-                        />
-                    </View>
-                    <Text>Phone</Text>
-                </View>
-                <View style={styles.Category}>
-                    <View style={styles.CategoryImage}>
-                        <Image
-                            style={styles.Imagecon}
-                            resizeMode="cover"
-                            source={require("../../assets/images/laptop.png")}
-                        />
-                    </View>
-                    <Text>Laptop</Text>
-                </View>
-                <View style={styles.Category}>
-                    <View style={styles.CategoryImage}>
-                        <Image
-                            style={styles.Imagecon}
-                            resizeMode="cover"
-                            source={require("../../assets/images/airpod.png")}
-                        />
-                    </View>
-                    <Text>Airpod</Text>
-                </View>
-                <View style={styles.Category}>
-                    <View style={styles.CategoryImage}>
-                        <Image
-                            style={styles.Imagecon}
-                            resizeMode="cover"
-                            source={require("../../assets/images/apple_watch.png")}
-                        />
-                    </View>
-                    <Text>Apple watch</Text>
-                </View>
-            </View>
-
-            <View style={styles.searchrow}>
-                <TextInput style={styles.textInput} placeholder="Tìm kiếm" />
-                <View style={styles.iconContainer}>
-                    <Image
-                        style={styles.searchIcon}
-                        source={require("../../assets/images/search.png")}
-                    />
-                </View>
+            <FlatList
+          data={Category}
+          renderItem={renderItem2}
+          keyExtractor={(item) => Math.random()}
+          refreshing={refreshing}
+          showsVerticalScrollIndicator={true}
+          numColumns={numColumns2}
+        />
             </View>
 
             <View style={styles.banner}>
@@ -131,7 +139,7 @@ const HomeStack = (props) => {
             </View>
             <View>
                 <FlatList
-                    data={data}
+                    data={data2}
                     renderItem={renderItem}
                     keyExtractor={(item) => Math.random()}
                     refreshing={refreshing}
@@ -146,6 +154,27 @@ const HomeStack = (props) => {
 
 export default HomeStack;
 const styles = StyleSheet.create({
+    Category: {
+        alignItems: "center",
+        flexDirection: "column",
+        marginLeft: 30,
+        justifyContent: "center",
+        width: 50,
+        height: 100,
+      },
+      CategoryImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 20,
+        borderColor: "red",
+        borderWidth: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      Imagecon: {
+        width: 20,
+        height: 30,
+      },
     rowTitle: {
         width: "100%",
         heigh: 40,

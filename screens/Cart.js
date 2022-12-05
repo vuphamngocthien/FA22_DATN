@@ -40,7 +40,7 @@ export const Cart = () => {
                                     <Text style={{left:35,fontSize:20,fontWeight:"600"}}>1</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{ width: 30, height: 30, backgroundColor: 'green', right: -100, top: 60, borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}>
-                                    <Image source={require('../../assets/images/plus.png')} style={{width:12,height:12 }}/>
+                                    <Image source={require('../assets/images/plus.png')} style={{width:12,height:12 }}/>
                                 </TouchableOpacity>
                             </View>
                                     

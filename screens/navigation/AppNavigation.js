@@ -4,18 +4,29 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthenNavigation from './AuthenNavigation';
 import ProductNavigation from './ProductNavigation';
 import { UserContext } from '../../Components/UserContext';
-export default function Navigation  (props)  {
-    // const isLoggedIn =true;
+import Login from '../authen/Login';
+import Sign_up from '../authen/Sign_up'
+import Detailsproduct from "../product/Detailsproduct";
+import HomeStack from "../product/HomeStack";
+
+
+export default function AppNavigation  (props)  {
+    const LoggedIn =true;
     const {isLoggedIn} = useContext(UserContext);
     return (
-        <NavigationContainer>
+        <NavigationContainer independent={true} >
             {
                 isLoggedIn == true ? 
-                <ProductNavigation /> : 
+                <ProductNavigation />:
                 <AuthenNavigation />
+                
+                  
+                
             }
         </NavigationContainer>
+        
+       
 
 
-    )
+        )
 }

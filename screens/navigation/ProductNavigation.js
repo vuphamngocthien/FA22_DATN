@@ -10,15 +10,15 @@ import HomeStack from '../product/HomeStack';
 import MarkerStack from '../product/MarkerStack';
 import ProfileStack from '../product/ProfileStack';
 import BellStack from '../product/BellStack';
-
-
-
+import Detailsproduct from '../product/Detailsproduct';
+import Order from '../product/Order';
+import EditUserProfile from '../user/EditUserProfile';
 
 const ProductNavigation = () => {
     return (
         // <ScrollView>
-        <Tab.Navigator  
-        screenOptions={({route}) =>({
+        <Tab.Navigator   
+        screenOptions={({route,}) =>({headerShown: false,
             tabBarIcon:() =>{
                     if (route.name == 'HomeStack') {
                         return <Image style={styles.icon} source={require('../../assets/images/homeVector.png')} />
@@ -49,6 +49,9 @@ const ProductNavigation = () => {
             <Tab.Screen name="MarkerStack" component={MarkerStack} />
             <Tab.Screen name="BellStack" component={BellStack} />
             <Tab.Screen name="ProfileStack" component={ProfileStack} />
+            <Tab.Screen name="Detailsproduct" component={Detailsproduct}/>
+            <Tab.Screen name="Order" component={Order}/>
+            <Tab.Screen name="EditUserProfile" component={EditUserProfile}/>
         </Tab.Navigator>
         /* </ScrollView> */
     )

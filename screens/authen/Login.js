@@ -1,28 +1,59 @@
-import React, { useState,useEffect, createContext, Children,useContext } from "react";
-import { Text, StyleSheet, View, TextInput, Button, Image } from "react-native";
+import React, { useState, useEffect,useContext } from "react";
+import { Text, StyleSheet, View, TextInput, Button, Image, TouchableOpacity } from "react-native";
 import CheckBox from 'expo-checkbox';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from '@react-navigation/native';
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
 import { UserContext } from "../../Components/UserContext";
-export const LoginContext =createContext();
 
-export const Login=(props)=> {
+// export const LoginContext =createContext();
+
+export const Login = ({ navigation }) => {
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
-    
+    const [data, setData] = useState([]);
+    // const[isLogin, setisLogin] = useState(false);
+    // useEffect(() => {
+    //     onValue(ref(getDatabase(), "User/"), (snapshot) => {
+    //         setData(Object.values(snapshot.val()));
+    //         console.log('skjfhsdk')
+    //     });
+    //     isLoggedIn();
+    // }, []);
     const {login} =useContext(UserContext);
-    
+
 
     const Login = async() => {
         const res =await login(Username,Password);
         if(res ==true){
             console.log('dang nhap thanh cong');
+            navigation.navigate('HomeStack');
         }else{
             console.log('dang nhap that bai');
             console.log(res);
         }
     }
+    // const login = () => {
+    //     for (var i = 0; i <= data.length; i++) {
+    //         if (Username == data[i].Email && Password == data[i].Password) {
+    //             navigation.navigate('HomeStack');
+    //             console.log('??????????????????????',datamk[i].User_name);
+    //             break;
+    //         } else {
+    //             navigation.navigate('Signup')
+    //             console.log('that bai roi');
+    //         }
+    //     }
+    // }
+    // const isLoggedIn= async()=>{
+    //     try{
+    //         setisLogin(true);
+    //         let userToken=await AsyncStorage.getItem('userToken');
+    //         setisLogin(false);
+    //     }catch(e){
+    //         console.log('that bai roi thang ngu');
+    //     }
+    // }
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
@@ -63,26 +94,28 @@ export const Login=(props)=> {
                     titleStyle={{ fontWeight: "700", color: 'black' }} />
                 <Image source={require('../../assets/Facebook.png')} style={{ width: 25, height: 25, marginTop: -30 }} />
             </View>
-            <Text style={{ color: 'rgba(255, 110, 78, 1)', fontWeight: "700", fontSize: 12, marginTop: 13 }}>Forgot Password</Text>
+            <TouchableOpacity onPress={()=>navigation.navigate('forgotPassword')}>
+            <Text style={{ color: 'rgba(255, 110, 78, 1)', fontWeight: "700", fontSize: 15, marginTop: 13 }}>Forgot Password</Text>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row', marginTop: 13 }}>
                 <Text>Don't have an account?</Text>
-                <Text style={{ color: 'rgba(255, 110, 78, 1)', fontWeight: "700" }} onPress={() => navigation.navigate('Signup')}>Register</Text>
+                <Text style={{ color: 'rgba(255, 110, 78, 1)', fontWeight: "700" }} onPress={() => navigation.navigate('Register')}>Register</Text>
             </View>
         </View>
     );
 
-    
+
 }
-   
-    
-    
-    
 
 
 
 
 
-    
+
+
+
+
+
 
 export default Login;
 
