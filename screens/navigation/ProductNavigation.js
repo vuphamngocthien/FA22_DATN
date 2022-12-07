@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View,Image,ScrollView } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from "react";
+import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 
@@ -61,12 +61,12 @@ const ProductNavigation = () => {
 export default ProductNavigation
 
 const styles = StyleSheet.create({
-    icon:{
-        width:24,
-        height:24
-    },
-    dot:{
-        width:4,
-        height:4
-    }
-})
+  icon: {
+    width: 24,
+    height: 24,
+  },
+  dot: {
+    width: 4,
+    height: 4,
+  },
+});

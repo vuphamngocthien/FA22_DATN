@@ -52,7 +52,7 @@ function Contact({route}) {
     }
     return (
         <View style={styles.container}>
-            <ScrollView style={{width:'100%',height:150}}>
+            <ScrollView horizontal={true} style={{width:'100%',height:150}}>
                 <FlatList
                     data={dataProduct}
                     renderItem={({item,index})=>

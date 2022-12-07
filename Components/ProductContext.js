@@ -9,12 +9,12 @@ export const ProductContextProvider = (props) => {
   const [Cart, setCart] = useState([]);
   const [Detail_cart, setDetail_cart] = useState([]);
   const [CartID, setCartID] = useState("");
-
+  const [dt_id,setdt_id]=useState('');
   const [product, setProduct] = useState([]);
   var item = [];
   useEffect(() => {
     onValue(ref(getDatabase(), "Cart/"), (snapshot) => {
-      console.log(snapshot["Product_id"]);
+     
       setCart(Object.values(snapshot.val()));
 
       //     console.log(Cart[0].Cart_id);
@@ -26,7 +26,6 @@ export const ProductContextProvider = (props) => {
       setProduct(Object.values(snapshot.val()));
     });
   }, []);
-
   const getCart = async () => {
     var item = [];
     console.log(user_id);
@@ -37,7 +36,6 @@ export const ProductContextProvider = (props) => {
           break;
         }
       }
-
       for (var i = 1; i <= Detail_cart.length; i++) {
         if (CartID == Detail_cart[i - 1].cart_id) {
           item.push({
@@ -47,6 +45,7 @@ export const ProductContextProvider = (props) => {
             Price: Detail_cart[i - 1].Price,
             Quantity: Detail_cart[i - 1].Quantity,
             Status: Detail_cart[i - 1].Status,
+            dt_id: Detail_cart[i - 1].dt_id,
           });
           //console.log(Detail_cart[i].cart_id + "##############");
           //console.log(data2 + "??????????????");
@@ -61,6 +60,56 @@ export const ProductContextProvider = (props) => {
     }
   };
 
+  const showDetailCart=async()=>{
+    const res= await getCart();
+    var item=[];
+    var newitem=[]
+    for(var i=1;i<=res.length;i++){
+      console.log(res[i-1].Status);
+      if(res[i-1].Status == 'false'){
+        item=[res[i-1]];
+        break;
+      }
+    }
+
+  var item2=[];
+  item2=Object.values(item[0].Product_id);
+  for(var i=1;i<=item2.length;i++){
+    for(var j=1;j<=product.length;j++){
+      console.log('-----------',product[j-1].Product_id)
+      console.log('---------------',item2[i-1].id_pd);
+      if(product[j-1].Product_id == item2[i-1].id_pd ){
+        console.log('-----------',product[j-1].Product_id)
+        newitem.push(product[j-1])
+        }else{
+          console.log('that bai roiiiiiiiiiiii')
+        }
+      }
+    }
+    return newitem;
+ }
+
+  const getDetailCart=async(quantity,id_pd,price)=>{
+    const res= await getCart();
+    var item=[];
+    for(var i=1;i<=res.length;i++){
+      console.log(res[i-1].Status);
+      if(res[i-1].Status == 'false'){
+        item=[res[i-1]];
+        break;
+      }
+    }
+    var dt_id=item[0].dt_id+'/Product_id/'+id_pd;
+    setdt_id(item[0].dt_id);
+    set(ref(getDatabase(),'Detail_cart/'+dt_id),{
+      Quantity:quantity,
+      id_pd:id_pd,
+      price:price
+    })
+    return item;
+  }
+
+  
   const getProductDetailCart = async (products) => {
     var item = [];
     for (var i = 1; i <= products.length; i++) {
@@ -92,7 +141,7 @@ export const ProductContextProvider = (props) => {
         getCart,
         user_id,
         getProductBycate,
-        getProductDetailCart,
+        getProductDetailCart,getDetailCart,showDetailCart,dt_id
       }}
     >
       {children}

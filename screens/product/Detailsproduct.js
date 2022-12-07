@@ -105,7 +105,7 @@ const danhgia=(a)=>{
                 <View style={{ top: 40,height:400}} >
                     <NavigationContainer independent={true}>
                         <Tap.Navigator style={{backgroundColor:'red'}}>
-                            <Tap.Screen name='Details' component={Details}/>
+                            <Tap.Screen name='Details' component={Details} initialParams={{data}}/>
                             <Tap.Screen name='Shops' component={Shops} />
                             <Tap.Screen name='Comment' component={Contact} initialParams={{data,defaultRating}}/>
                             <Tap.Screen name='Features' component={Features} />

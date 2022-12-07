@@ -1,4 +1,4 @@
-import {
+import{
     StyleSheet,
     Text,
     View,
@@ -6,26 +6,34 @@ import {
     TextInput,
     FlatList,
     Dimensions,
-    Pressable
+    Pressable,
+    ScrollView
 } from "react-native";
 import { getDatabase, ref, onValue, onChildAdded } from "firebase/database";
 import React, {
     useState,
     useEffect,
     useContext,
-    ScrollView,
     Animated,
     createContext,
 } from "react";
 import { UserContext } from "../../Components/UserContext";
-import { ProductContext } from "../../Components/ProductContext";
+import { ProductContext, } from "../../Components/ProductContext";
+
 export const HomeStack = ({navigation,routes}) => {
     const numColumns = 2;
-    const numColumns2 = 10;
+    const numColumns2 = 9;
     const [data2, setData2] = useState([]);
+    const images=[  
+        require("../../assets/images/shopping_bag.png"),
+        require("../../assets/images/shopping_bag.png"),
+        require("../../assets/images/shopping_bag.png"),
+        require("../../assets/images/shopping_bag.png"),
+        require("../../assets/images/shopping_bag.png"),
+    ]
   
     const [Category, setCategory] = useState([]);
-    const { getProductBycate } = useContext(ProductContext);
+    const { getProductBycate,getCart,showDetailCart } = useContext(ProductContext);
     
     const [refreshing, setRefreshing] = useState(false);
     const [data, setData] = useState([]);
@@ -37,7 +45,8 @@ export const HomeStack = ({navigation,routes}) => {
         onValue(ref(getDatabase(), "Category/"), (snapshot) => {
       setCategory(Object.values(snapshot.val()));
     });
-        
+    getCart();
+    showDetailCart();
     }, []);
     const getProductByCategory = async (cate_id) => {
         setData2([]);
@@ -52,7 +61,6 @@ export const HomeStack = ({navigation,routes}) => {
 
     const renderItem = ({ item }) => {
         const { Product_name, price,Product_id,data } = item;
-        console.log("-------------",item); 
         return (
             <View style={styles.itemcontainer}>
                 <View style={styles.imageItem}>
@@ -70,16 +78,15 @@ export const HomeStack = ({navigation,routes}) => {
                 <Text style={{fontWeight:"700",fontSize:16,color:'#010035'}}>${price} </Text>
                     <Text style={{width:100,fontWeight:"400",fontSize:13,color:'#010035'}}>{Product_name} </Text>
                 </View>
-
             </View>
         );
     };
     const renderItem2 = ({ item }) => {
         if (item == null) {
-          return <Text>Nothing</Text>;
+            return <Text>Nothing</Text>;
         } else {
-          const { Category_image, Category_name, Category_id } = item;
-          return (
+            const { Category_image, Category_name, Category_id } = item;
+            return (
             <Pressable onPress={() => getProductByCategory(Category_id)}>
               <View style={styles.Category}>
                 <View style={styles.CategoryImage}>
@@ -87,7 +94,7 @@ export const HomeStack = ({navigation,routes}) => {
                     style={styles.Imagecon}
                     resizeMode="cover"
                     source={{ uri: Category_image }}
-                  />
+                    />
                 </View>
                 <Text>{Category_name}</Text>
               </View>
@@ -103,6 +110,7 @@ export const HomeStack = ({navigation,routes}) => {
         setRefreshing(false);
     };
     return (
+        <ScrollView vertical={true}>
         <View style={styles.container}>
             <View style={styles.rowTitle}>
                 <Text style={styles.textTitle}>Select Category</Text>
@@ -121,17 +129,18 @@ export const HomeStack = ({navigation,routes}) => {
             </View>
 
             <View style={styles.IconCategory}>
-            <FlatList
+            <FlatList 
           data={Category}
+          horizontal
           renderItem={renderItem2}
           keyExtractor={(item) => Math.random()}
           refreshing={refreshing}
           showsVerticalScrollIndicator={true}
-          numColumns={numColumns2}
         />
             </View>
 
             <View style={styles.banner}>
+                {/* <SliderBox images={images} dotColor="red" inactiveDotColor="black" dotStyle={{heigh:20,width:20,borderRadius:50}} imageLoadingColor="black"/> */}
                 <Image
                     resizeMode="contain"
                     source={require("../../assets/images/banner1.png")}
@@ -149,7 +158,9 @@ export const HomeStack = ({navigation,routes}) => {
                 />
             </View>
         </View>
+        </ScrollView>
     );
+
 };
 
 export default HomeStack;
@@ -290,12 +301,4 @@ elevation: 8,
         marginTop: 50,
     },
 });
-  // var data = [
-  //   {
-  //     product: {
-  //       _id: "61d12f0c555401c8610fb8d1",
-  //       name: "Ambrosia ambrosioides (Cav.) Payne",
-  //       price: 1,
-  //     },
-  //   },
-  // ];
+

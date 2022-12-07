@@ -1,12 +1,13 @@
-import React, { useState, useEffect,useContext } from "react";
-import { Text, StyleSheet, View, TextInput, Button, Image, TouchableOpacity } from "react-native";
-import CheckBox from 'expo-checkbox';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationContainer } from '@react-navigation/native';
-import { UserContext } from "../../Components/UserContext";
 
-// export const LoginContext =createContext();
+import React, { useState, useEffect,useContext,createContext } from "react";
+import { Text, StyleSheet, View, TextInput, Button, Image,TouchableOpacity } from "react-native";
+import CheckBox from "expo-checkbox";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { NavigationContainer } from "@react-navigation/native";
+import ProductNavigation from "../navigation/ProductNavigation";
+import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { UserContext } from "../../Components/UserContext";
+export const LoginContext =createContext();
 
 export const Login = ({ navigation }) => {
     const [Username, setUsername] = useState('');
@@ -27,7 +28,6 @@ export const Login = ({ navigation }) => {
         const res =await login(Username,Password);
         if(res ==true){
             console.log('dang nhap thanh cong');
-            navigation.navigate('HomeStack');
         }else{
             console.log('dang nhap that bai');
             console.log(res);
@@ -57,10 +57,10 @@ export const Login = ({ navigation }) => {
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
-            <Text style={styles.welcome}>Welcome to CIliPhone</Text>
+            <Text style={styles.welcome}>Welcome to CiliPhone</Text>
             <Text style={styles.continue}>Sign in to continue</Text>
             <View >
-                <TextInput style={styles.email} placeholder="Your Email" value={Username} onChangeText={setUsername} />
+                <TextInput style={styles.email} placeholder="Your Email" value={Username} onChangeText={setUsername}/>
                 <Icon name={"email-outline"} style={{ fontSize: 26, position: "absolute", left: 20, bottom: 19 }} />
             </View>
             <View style={styles.password}>
@@ -83,8 +83,7 @@ export const Login = ({ navigation }) => {
                 <Button
                     color='rgba(235, 240, 255, 1)'
                     title="Sign with Google"
-                    titleStyle={{ fontWeight: "700", color: 'black' }}
-                />
+                    titleStyle={{ fontWeight: "700", color: 'black' }} />
                 <Image source={require('../../assets/Google.png')} style={{ width: 25, height: 25, marginTop: -30 }} />
             </View>
             <View style={styles.login_gg}>
@@ -107,9 +106,9 @@ export const Login = ({ navigation }) => {
 
 }
 
-
-
-
+    
+    
+    
 
 
 
@@ -120,78 +119,78 @@ export const Login = ({ navigation }) => {
 export default Login;
 
 const styles = StyleSheet.create({
-    parent: {
-        display: "flex",
-        alignItems: 'center',
-        paddingTop: 50
-    },
-    box: {
-        backgroundColor: '#FF6E4E',
-        width: 76,
-        height: 76,
-        borderRadius: 10
-    },
-    welcome: {
-        color: "#223263",
-        fontWeight: 'bold',
-        fontSize: 16,
-        marginTop: 24
-    },
-    continue: {
-        fontWeight: "400",
-        fontSize: 12,
-        color: '#9098B1',
-        marginTop: 16
-    },
-    email: {
-        value: { Text },
-        margin: 12,
-        borderWidth: 1,
-        width: 343,
-        height: 48,
-        marginTop: 28,
-        paddingLeft: 35,
-        fontSize: 14,
-        fontWeight: "400",
-        color: '#9098B1',
-        borderRadius: 5
-    },
-    password: {
-        marginTop: -18
-    },
-    rm_password: {
-        width: 343,
-        height: 48,
-        flexDirection: 'row',
-        left: -85,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    checkbox: {
-        width: 24,
-        height: 24,
-    },
-    text_rm: {
-        paddingLeft: 10,
-        color: '#9098B1'
-    },
-    btn_signin: {
-        width: 343,
-        height: 57,
-        borderRadius: 5,
-        marginTop: 10,
-    },
-    line: {
-        backgroundColor: '#EBF0FF',
-        width: 160,
-        height: 1,
-        flex: 1,
-        margin: 10
-    },
-    login_gg: {
-        width: 343,
-        height: 38,
-        borderWidth: 1,
-        borderColor: 'rgba(235, 240, 255, 1)'
-    },
-})
+  parent: {
+    display: "flex",
+    alignItems: "center",
+    paddingTop: 50,
+  },
+  box: {
+    backgroundColor: "#FF6E4E",
+    width: 76,
+    height: 76,
+    borderRadius: 10,
+  },
+  welcome: {
+    color: "#223263",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginTop: 24,
+  },
+  continue: {
+    fontWeight: "400",
+    fontSize: 12,
+    color: "#9098B1",
+    marginTop: 16,
+  },
+  email: {
+    value: { Text },
+    margin: 12,
+    borderWidth: 1,
+    width: 343,
+    height: 48,
+    marginTop: 28,
+    paddingLeft: 35,
+    fontSize: 14,
+    fontWeight: "400",
+    color: "#9098B1",
+    borderRadius: 5,
+  },
+  password: {
+    marginTop: -18,
+  },
+  rm_password: {
+    width: 343,
+    height: 48,
+    flexDirection: "row",
+    left: -85,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+  },
+  text_rm: {
+    paddingLeft: 10,
+    color: "#9098B1",
+  },
+  btn_signin: {
+    width: 343,
+    height: 57,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  line: {
+    backgroundColor: "#EBF0FF",
+    width: 160,
+    height: 1,
+    flex: 1,
+    margin: 10,
+  },
+  login_gg: {
+    width: 343,
+    height: 38,
+    borderWidth: 1,
+    borderColor: "rgba(235, 240, 255, 1)",
+  },
+});

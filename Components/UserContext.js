@@ -29,16 +29,15 @@ export const UserContextProvider = ({props,children}) => {
     useEffect(()=>{
         onValue(ref(getDatabase(), "User"), (snapshot) => {
             setData(Object.values(snapshot.val()));
+            console.log(data)
           });
           a=data.length+1;
           setUser_idud('us'+a);
           setCart_ud('c'+a);
         },[]);
     const login = async (email,password) => {
-        
-        
+      console.log('....................',email);
         for (var i = 0; i <= data.length; i++) {
-            
             if (email == data[i].Email && password == data[i].Password) {
                 setisLoggedIn(true);
                 setUser_name(data[i].User_name);
@@ -55,7 +54,6 @@ export const UserContextProvider = ({props,children}) => {
               console.log('that bai');
             }   
         }
-        console.log('..............',data[i].User_picture);
 }
 const getUser = (id) => {
     var item = [];
@@ -98,7 +96,7 @@ const getUser = (id) => {
         <UserContext.Provider
             value={{
                 isLoggedIn,login,rate,setrate,user_name,data,user_idud,user_image,
-                user_money, getUser,address,Birth, email, Phone_number,UpdateUser,user_id,cart_ud
+                user_money, getUser,address,Birth, email, Phone_number,UpdateUser,user_id,cart_ud,setisLoggedIn
             }}
         >
             {children}

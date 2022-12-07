@@ -14,7 +14,7 @@ import EditUserProfile from "../user/EditUserProfile";
 import React, { useContext, useState, useEffect } from "react";
 const ProfileStack = ({ navigation }) => {
   const [data, setData] = useState([]);
-  const { user_id, user_money, user_image, user_name, getUser } =
+  const { user_id, user_money, user_image, user_name, getUser,setisLoggedIn } =
     useContext(UserContext);
   useEffect(() => {
     console.log('??????????????',user_image);
@@ -101,6 +101,7 @@ style={styles.changePasswordIcon}
               <Text style={styles.supportText}>Support</Text>
             </View>
           </View>
+            <Pressable onPress={()=>{setisLoggedIn(false)}}>
           <View style={styles.logout}>
             <Image
               style={styles.logoutIcon}
@@ -110,6 +111,7 @@ style={styles.changePasswordIcon}
               <Text style={styles.logoutText}>Logout</Text>
             </View>
           </View>
+            </Pressable>
         </View>
       </View>
     </SafeAreaView>

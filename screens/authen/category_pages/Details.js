@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Text, StyleSheet, View, Image, Pressable, TouchableOpacity } from "react-native";
+import React, { useState,useContext } from 'react';
+import { Text, StyleSheet, View, Image, Pressable, TouchableOpacity, ToastAndroid } from "react-native";
+import { ProductContext } from '../../../Components/ProductContext';
 
-function Details(props) {
+function Details({route}) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [clickGb, setclickGb] = useState(0);
     const handleClick = (index, id) => {
@@ -15,6 +16,16 @@ function Details(props) {
         { value: 128, dungluong: 128 },
         { value: 256, dungluong: 256 }
     ]
+    const {getDetailCart}=useContext(ProductContext)
+    console.log('.................',route.params.data.Product_id);
+    var quantity=1;
+    var id_pd=route.params.data.Product_id;
+    var price=route.params.data.price;
+
+    const addtoCart= async()=>{
+        await getDetailCart(quantity,id_pd,price);
+        ToastAndroid.show("Add to Cart Success!", ToastAndroid.SHORT);
+    }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -30,7 +41,7 @@ function Details(props) {
                     <Image source={require('../../../assets/Chip.png')} style={{ width: 35, height: 28 }} />
                     <View style={{}}><Text>8GB</Text></View>
                 </View>
-                <View>
+                <View>  
                     <Image source={require('../../../assets/01.png')} style={{ width: 25, height: 28 }} />
                     <View style={{ right: 10 }}><Text>256 GB</Text></View>
                 </View>
@@ -71,7 +82,7 @@ function Details(props) {
 
 
              <View>
-                <TouchableOpacity style={styles.btnAddtoCart}>
+                <TouchableOpacity style={styles.btnAddtoCart} onPress={addtoCart}>
                     <Text style={styles.btnATC_text}>Add to Cart</Text>
                     <Text style={styles.btnATC_text}>$1,5000.00</Text>
                 </TouchableOpacity>
