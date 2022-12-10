@@ -43,21 +43,27 @@ export const Cart = () => {
     }
  const   addCart=()=>{
      console.log('00000000000000',a);
-     for(var i=1;i<=data2.length;i++){
-        var a=dt_id+'/Product_id/'+data2[i-1].id_pd;
-        set(ref(getDatabase(),'Detail_cart/'+a),{
-            Quantity:data2[i-1].Quantity,
-            id_pd:data2[i-1].id_pd,
-            price:data2[i-1].price
+     var b=dt_id+'/Status';
+     set(ref(getDatabase(),'Detail_cart/dt1'),{
+         Status:'Delivered',
+         Innitiated_date:'20/02/2002',
+         Price:200,
+         Quantity:2,
+         cart_id:'c1',
+         dt_id:'dt1'
         })
-    }
-    var b=dt_id+'/Status';
-    set(ref(getDatabase(),'Detail_cart/'+b),{
-        Status:'Delivered'
-    })
+        for(var i=1;i<=data2.length;i++){
+           var a='/Product_id/'+data2[i-1].id_pd;
+           set(ref(getDatabase(),'Detail_cart/dt1'+a),{
+               Quantity:data2[i-1].Quantity,
+               id_pd:data2[i-1].id_pd,
+               price:data2[i-1].price
+           })
+       }
 }
     return (
         <View style={styles.container}>
+            <Text style={{alignSelf:'center',fontSize:25,fontWeight:'700'}}>Giỏ Hàng</Text>
             <FlatList
                 data={data}
                 renderItem={({ item, index }) => (

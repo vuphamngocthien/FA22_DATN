@@ -84,7 +84,7 @@ function Details({route}) {
              <View>
                 <TouchableOpacity style={styles.btnAddtoCart} onPress={addtoCart}>
                     <Text style={styles.btnATC_text}>Add to Cart</Text>
-                    <Text style={styles.btnATC_text}>$1,5000.00</Text>
+                    <Text style={styles.btnATC_text}>${route.params.data.price}</Text>
                 </TouchableOpacity>
             </View> 
         </View>

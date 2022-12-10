@@ -16,6 +16,7 @@ import HomeStack from "./screens/product/HomeStack";
 import Sign_up from "./screens/authen/Sign_up";
 import Detailsproduct from "./screens/product/Detailsproduct";
 import Cart from "./screens/Cart";
+import Favorite from "./screens/product/Favorite";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
      <AppNavigation/>
       </ProductContextProvider>
     </UserContextProvider>
+    
  
   
   )

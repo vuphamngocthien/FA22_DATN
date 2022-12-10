@@ -14,8 +14,18 @@ const Tap = createMaterialTopTabNavigator();
 
 const dataaa = [
     {
-        image: 'https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/laptop.jpeg?alt=media&token=04d5fd06-74a6-469b-a13b-7394fbd136e2'
+        image: 'https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/laptop.jpeg?alt=media&token=04d5fd06-74a6-469b-a13b-7394fbd136e2',
+        name:'Shiaomi'
+    },
+    {
+        image: 'https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/laptop.jpeg?alt=media&token=04d5fd06-74a6-469b-a13b-7394fbd136e2',
+        name:'Lenovo'
+    },
+    {
+        image: 'https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/laptop.jpeg?alt=media&token=04d5fd06-74a6-469b-a13b-7394fbd136e2',
+        name:'LG'
     }
+
 ]
 
 
@@ -74,6 +84,7 @@ const danhgia=(a)=>{
     setrate(a);
     setdefaultRating(a);
 }
+console.log('=============',data.Product_picture)
     return (
         <View style={styles.container}>
             <View style={styles.appbar}>
@@ -83,12 +94,12 @@ const danhgia=(a)=>{
                 <Text style={{ color: '#010035', fontWeight: "bold", fontSize: 18, fontStyle: "normal" }}>Product Detail</Text>
             </View>
                 <FlatList
-                    data={data}
+                    data={dataaa}
                     horizontal
                     renderItem={({ item, index }) =>
                     (
                         <View style={{ margin: 10, boxShadow: '0px 10px 20px rgba(55, 78, 136, 0.16)', borderRadius: 18 }}>
-                            <Image source={{ uri: item.Product_picture }} style={{ width: 250, height: 250, borderRadius: 18 }} />
+                            <Image source={ {uri:item.image} } style={{ width: 250, height: 250, borderRadius: 18 }} />
                         </View>
                     )}
                 />

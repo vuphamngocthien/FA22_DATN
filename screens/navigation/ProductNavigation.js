@@ -13,6 +13,7 @@ import BellStack from '../product/BellStack';
 import Detailsproduct from '../product/Detailsproduct';
 import Order from '../product/Order';
 import EditUserProfile from '../user/EditUserProfile';
+import Favorite from "../product/Favorite";
 
 const ProductNavigation = () => {
     return (
@@ -24,7 +25,7 @@ const ProductNavigation = () => {
                         return <Image style={styles.icon} source={require('../../assets/images/homeVector.png')} />
                     } else if (route.name == 'MarkerStack') {
                         return <Image style={styles.icon} source={require('../../assets/images/markerVector.png')} />
-                    }  else if (route.name == 'BellStack') {
+                    }  else if (route.name == 'Favorite') {
                         return <Image style={styles.icon} source={require('../../assets/images/bellVector.png')} />
                     }else if (route.name == 'ProfileStack') {
                         return <Image style={styles.icon} source={require('../../assets/images/userVector.png')} />
@@ -35,7 +36,7 @@ const ProductNavigation = () => {
                     return <Image style={styles.dot} source={require('../../assets/images/dot.png')}/>
                 } else if(route.name =='MarkerStack' && focused){
                     return <Image  style={styles.dot}  source={require('../../assets/images/dot.png')}/>
-                } else if(route.name =='BellStack' && focused){
+                } else if(route.name =='Favorite' && focused){
                     return <Image  style={styles.dot} source={require('../../assets/images/dot.png')}/>
                 } else if(route.name =='ProfileStack' && focused){
                     return <Image  style={styles.dot} source={require('../../assets/images/dot.png')}/>
@@ -48,13 +49,16 @@ const ProductNavigation = () => {
             <Tab.Screen name="HomeStack" component={HomeStack} />
             <Tab.Screen name="MarkerStack" component={MarkerStack} />
             <Tab.Screen name="BellStack" component={BellStack} />
+            <Tab.Screen name="Favorite" component={Favorite}/>
             <Tab.Screen name="ProfileStack" component={ProfileStack} />
             <Tab.Screen name="Detailsproduct" component={Detailsproduct}/>
             <Tab.Screen name="Order" component={Order}/>
             <Tab.Screen name="EditUserProfile" component={EditUserProfile}/>
         </Tab.Navigator>
         /* </ScrollView> */
-    )
+    
+        )
+    
     
 }
 

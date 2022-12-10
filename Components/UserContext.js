@@ -7,7 +7,7 @@ export const UserContext = createContext();
 export const UserContextProvider = ({props,children}) => {
     const [user_image, setUser_image] = useState("");
   const [user_money, setUser_money] = useState("");
-
+  const[user_password,setuser_password]=useState('');
   const [address, setAddress] = useState("");
   const [Birth, setBirth] = useState("");
   const [email, setEmail] = useState("");
@@ -19,6 +19,7 @@ export const UserContextProvider = ({props,children}) => {
   
 
     const [isLoggedIn, setisLoggedIn] = useState(false);
+    const [number, setNumber] = useState(0);
     const [data, setData] = useState([]);
     const [rate,setrate]=useState('256');
     const [user_name,setUser_name]=useState('');
@@ -29,26 +30,27 @@ export const UserContextProvider = ({props,children}) => {
     useEffect(()=>{
         onValue(ref(getDatabase(), "User"), (snapshot) => {
             setData(Object.values(snapshot.val()));
-            console.log(data)
           });
+          console.log('>>>>>>>>>>>>',data)
           a=data.length+1;
           setUser_idud('us'+a);
           setCart_ud('c'+a);
         },[]);
     const login = async (email,password) => {
-      console.log('....................',email);
-        for (var i = 0; i <= data.length; i++) {
-            if (email == data[i].Email && password == data[i].Password) {
+        for (var i = 1; i <= data.length; i++) {
+            if (email == data[i-1].Email && password == data[i-1].Password) {
                 setisLoggedIn(true);
-                setUser_name(data[i].User_name);
-                setUser_image(data[i].User_picture);
-                setUser_money(data[i].Money);
-                setAddress(data[i].Address);
-                setBirth(data[i].Birth);
-                setEmail(data[i].Email);
-                setPhone_number(data[i].Phone_number);
-                setPassword(data[i].password);
-                setUser_id(data[i].User_id);
+                setUser_name(data[i-1].User_name);
+                setUser_image(data[i-1].User_picture);
+                setUser_money(data[i-1].Money);
+                setAddress(data[i-1].Address);
+                setBirth(data[i-1].Birth);
+                setEmail(data[i-1].Email);
+                setPhone_number(data[i-1].Phone_number);
+                setPassword(data[i-1].password);
+                setUser_id(data[i-1].User_id);
+                setNumber(i);
+                setuser_password(data[i-1].Password)
                 return true;
             } else{
               console.log('that bai');
@@ -74,29 +76,27 @@ const getUser = (id) => {
     console.log(item + "**********");
     return item;
   };
-  const UpdateUser = (name, birth, email, address, phone) => {
-    set(ref(getDatabase(), "User/" + tring), {
+  const UpdateUser = (name, birth, email, address, phone,) => {
+    set(ref(getDatabase(), "User/" + user_id), {
       Address: address,
       Birth: birth,
       Email: email,
-      Money: 0,
-      Password: "123",
+      Money: user_money,
+      Password: user_password,
       Phone_number: phone,
-      User_id: "us1",
+      User_id: user_id,
       User_name: name,
-      User_picture:
-        "https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/download.jfif?alt=media&token=82db0ca2-b895-43e1-bb64-307bccbfd15a",
+      User_picture:user_image,    
     });
 
     return true;
   };
-
-
+  
     return (
         <UserContext.Provider
             value={{
                 isLoggedIn,login,rate,setrate,user_name,data,user_idud,user_image,
-                user_money, getUser,address,Birth, email, Phone_number,UpdateUser,user_id,cart_ud,setisLoggedIn
+                user_money, getUser,address,Birth, email, Phone_number,UpdateUser,user_id,cart_ud,setisLoggedIn,number
             }}
         >
             {children}

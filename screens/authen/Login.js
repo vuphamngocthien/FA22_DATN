@@ -33,27 +33,6 @@ export const Login = ({ navigation }) => {
             console.log(res);
         }
     }
-    // const login = () => {
-    //     for (var i = 0; i <= data.length; i++) {
-    //         if (Username == data[i].Email && Password == data[i].Password) {
-    //             navigation.navigate('HomeStack');
-    //             console.log('??????????????????????',datamk[i].User_name);
-    //             break;
-    //         } else {
-    //             navigation.navigate('Signup')
-    //             console.log('that bai roi');
-    //         }
-    //     }
-    // }
-    // const isLoggedIn= async()=>{
-    //     try{
-    //         setisLogin(true);
-    //         let userToken=await AsyncStorage.getItem('userToken');
-    //         setisLogin(false);
-    //     }catch(e){
-    //         console.log('that bai roi thang ngu');
-    //     }
-    // }
     return (
         <View style={styles.parent}>
             <View style={styles.box}></View>
@@ -93,7 +72,7 @@ export const Login = ({ navigation }) => {
                     titleStyle={{ fontWeight: "700", color: 'black' }} />
                 <Image source={require('../../assets/Facebook.png')} style={{ width: 25, height: 25, marginTop: -30 }} />
             </View>
-            <TouchableOpacity onPress={()=>navigation.navigate('forgotPassword')}>
+            <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
             <Text style={{ color: 'rgba(255, 110, 78, 1)', fontWeight: "700", fontSize: 15, marginTop: 13 }}>Forgot Password</Text>
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', marginTop: 13 }}>

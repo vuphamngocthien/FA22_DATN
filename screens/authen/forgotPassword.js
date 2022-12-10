@@ -2,7 +2,7 @@ import React, { useContext, useState }  from "react";
 import {StyleSheet,View,Text,TextInput,Image,TouchableOpacity,Button } from 'react-native';
 import { getDatabase, ref, set, push, onValue } from "firebase/database";
 import {UserContext} from '../../Components/UserContext'
-export const forgotPassword=({navigation})=>{
+export const ForgotPassword=({navigation})=>{
     const {data}=useContext(UserContext);
     const [Email,setEmail]=useState('');
     const [newPassword,setnewPassword]=useState('');
@@ -59,6 +59,10 @@ export const forgotPassword=({navigation})=>{
                 <TextInput style={styles.email} placeholder="Password Again " value={passwordAgain} onChangeText={setpasswordAgain}/>
                 <Image source={require('../../assets/Password.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,marginBottom:20}} />
             </View>
+            <View style={styles.password}>
+                <TextInput style={styles.email} placeholder="Password Again " value={passwordAgain} onChangeText={setpasswordAgain}/>
+                <Image source={require('../../assets/Password.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,marginBottom:20}} />
+            </View>
             <TouchableOpacity >
             <View style={styles.btn_signin}>
                 <Button title='Sign Up' color='#FF6E4E' onPress={getPassword}  />
@@ -72,7 +76,7 @@ export const forgotPassword=({navigation})=>{
     )
 }
 
-export default forgotPassword
+export default ForgotPassword
 const styles=StyleSheet.create({
     parent: {
         display: "flex",

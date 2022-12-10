@@ -2,6 +2,7 @@ import React,{useContext, useState,useEffect} from "react";
 import { Text, StyleSheet, TextInput, Button, Image,View,TouchableOpacity } from "react-native";
 import { getDatabase, ref, set , push,onValue } from "firebase/database";
 import {UserContext} from '../../Components/UserContext'
+import { ProductContext } from "../../Components/ProductContext";
 
 function Sign_up(props) {
     const {navigation}=props;
@@ -10,6 +11,7 @@ function Sign_up(props) {
     const [UserPassword,setUserPassword]=useState('');
     const [data,setdata]=useState([]);
    const {user_idud,cart_ud,user_id}=useContext(UserContext);
+   const {Detail_cart}=useContext(ProductContext)
     var a=0;
 
 
@@ -45,6 +47,17 @@ const Sign_up = () =>{
       Favorite_id:d,
       Product_id:{d},
       User_id:b
+    })
+    var t=Detail_cart.length+1
+    set(ref(getDatabase(),'Detail_cart/dt'+t),{
+        Innitiated_date:'',
+        Price:5000,
+        Product_id:{a},
+        Quantity:0,
+        Status:'false',
+        Cart_id:c,
+        dt_id:'dt'+t
+
     })
     
 }

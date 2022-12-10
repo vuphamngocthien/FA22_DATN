@@ -7,7 +7,7 @@ import{
     FlatList,
     Dimensions,
     Pressable,
-    ScrollView
+    ScrollView,
 } from "react-native";
 import { getDatabase, ref, onValue, onChildAdded } from "firebase/database";
 import React, {
@@ -24,6 +24,7 @@ export const HomeStack = ({navigation,routes}) => {
     const numColumns = 2;
     const numColumns2 = 9;
     const [data2, setData2] = useState([]);
+    const [name,setName]=useState('')
     const images=[  
         require("../../assets/images/shopping_bag.png"),
         require("../../assets/images/shopping_bag.png"),
@@ -33,8 +34,8 @@ export const HomeStack = ({navigation,routes}) => {
     ]
   
     const [Category, setCategory] = useState([]);
-    const { getProductBycate,getCart,showDetailCart } = useContext(ProductContext);
-    
+    const { getProductBycate,getCart,showDetailCart,getProductname,addFavorite } = useContext(ProductContext);
+    const [search,setSearch]=useState('');
     const [refreshing, setRefreshing] = useState(false);
     const [data, setData] = useState([]);
     useEffect(() => {
@@ -58,9 +59,27 @@ export const HomeStack = ({navigation,routes}) => {
         }
         onRefresh();
       };
-
+      const getProductByName = async () => {
+        setData2([]);
+        if (name == null) {
+          setData2(data);
+        } else {
+          const res = await getProductname(name);
+          setData2(res);
+        }
+        onRefresh();
+      };
+      const addFavo = async (pd) => {
+        addFavorite(pd);
+        console.log("them thanh cong");
+      };
+const bannerdata=[
+    {image:require("../../assets/images/banner1.png")},
+    {image:require("../../assets/images/banner1.png")},
+    {image:require("../../assets/images/banner1.png")},
+]
     const renderItem = ({ item }) => {
-        const { Product_name, price,Product_id,data } = item;
+        const { Product_name, price,Product_id,data,Sale,Product_picture } = item;
         return (
             <View style={styles.itemcontainer}>
                 <View style={styles.imageItem}>
@@ -69,15 +88,40 @@ export const HomeStack = ({navigation,routes}) => {
                         resizeMode="cover"
                         style={{ width: 127, height: 125 }}
                         source={{
-                            uri: "https://firebasestorage.googleapis.com/v0/b/fa22datn.appspot.com/o/laptop2.jfif?alt=media&token=2be9e403-737a-45b6-b0da-447c0425db92",
+                            uri:item.Product_picture
                         }}
                     />
+                    {
+                    item.Sale ==0 ? null: <View><Image source={require('../../assets/sale.png')} style={{width:50,height:50,top:-126,left:-22,transform:[{rotateZ:'-57deg'}]}}></Image><Text style={styles.sale}>{item.Sale}%</Text></View>
+                    }
                     </Pressable> 
                 </View>
-                <View style={{ flexDirection: 'column', left:-8,top:-25 }}>
-                <Text style={{fontWeight:"700",fontSize:16,color:'#010035'}}>${price} </Text>
-                    <Text style={{width:100,fontWeight:"400",fontSize:13,color:'#010035'}}>{Product_name} </Text>
-                </View>
+                <View style={{ flexDirection: "row", left: -8 }}>
+          <View style={{ flexDirection: "column", left: 8, top: -25 }}>
+            <Text style={{ fontWeight: "700", fontSize: 16, color: "#010035" }}>
+              ${price}{" "}
+            </Text>
+            <Text
+              style={{
+                width: 100,
+                fontWeight: "400",
+                fontSize: 13,
+                color: "#010035",
+              }}
+            >
+              {Product_name}{" "}
+            </Text>
+          </View>
+          <View style={{ flexDirection: "column", left: -8, top: -25 }}>
+            <Pressable onPress={() => addFavo(Product_id)}>
+              <Image
+                resizeMode="cover"
+                style={{ width: 20, height: 20 }}
+                source={require("../../assets/lover.png")}
+              />
+            </Pressable>
+          </View>
+        </View>
             </View>
         );
     };
@@ -111,6 +155,7 @@ export const HomeStack = ({navigation,routes}) => {
     };
     return (
         <ScrollView vertical={true}>
+
         <View style={styles.container}>
             <View style={styles.rowTitle}>
                 <Text style={styles.textTitle}>Select Category</Text>
@@ -127,7 +172,12 @@ export const HomeStack = ({navigation,routes}) => {
                     />
                 </View>
             </View>
-
+            <View style={{flexDirection:'row'}}>
+            <TextInput style={{width:300,height:30,backgroundColor:'white',top:10,borderRadius:20,shadowColor: "#000",shadowOffset: {width: 0,height: 6,},shadowOpacity: 0.39,shadowRadius: 8.30,elevation: 13,paddingLeft:10}} value={name} onChangeText={setName} />
+            <Pressable onPress={getProductByName}>
+            <Image source={require('../../assets/images/search.png')} style={{width:25,height:25,top:13,left:15}}/>
+            </Pressable>
+            </View>
             <View style={styles.IconCategory}>
             <FlatList 
           data={Category}
@@ -140,11 +190,19 @@ export const HomeStack = ({navigation,routes}) => {
             </View>
 
             <View style={styles.banner}>
-                {/* <SliderBox images={images} dotColor="red" inactiveDotColor="black" dotStyle={{heigh:20,width:20,borderRadius:50}} imageLoadingColor="black"/> */}
-                <Image
-                    resizeMode="contain"
-                    source={require("../../assets/images/banner1.png")}
-                ></Image>
+                <FlatList
+                 data={bannerdata}
+                 horizontal
+                 showsHorizontalScrollIndicator
+                 pagingEnabled
+                 bounces={false}
+                 renderItem={({item,index})=>(
+                     <Image
+                         resizeMode="contain"
+                         source={item.image}
+                     ></Image>
+                 )}
+                 />
             </View>
             <View>
                 <FlatList
@@ -213,11 +271,11 @@ elevation: 8,
     },
 
     banner: {
-        width: "90%",
+        width: 370,
         height: 140,
         alignItems: "center",
         justifyContent: "center",
-        left: 15,
+        left: -12,
     },
     imageItem: {
         width: 150,
@@ -300,5 +358,11 @@ elevation: 8,
         padding: 24,
         marginTop: 50,
     },
+    sale:{
+    position:'absolute',
+    left:-11,
+    fontSize:18,
+    top:-120
+    }
 });
 

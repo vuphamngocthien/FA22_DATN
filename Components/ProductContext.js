@@ -5,12 +5,13 @@ export const ProductContext = createContext();
 
 export const ProductContextProvider = (props) => {
   const { children } = props;
-  const { user_id } = useContext(UserContext);
+  const { user_id,number } = useContext(UserContext);
   const [Cart, setCart] = useState([]);
   const [Detail_cart, setDetail_cart] = useState([]);
   const [CartID, setCartID] = useState("");
   const [dt_id,setdt_id]=useState('');
   const [product, setProduct] = useState([]);
+  const [favorite, setFavorite] = useState([]);
   var item = [];
   useEffect(() => {
     onValue(ref(getDatabase(), "Cart/"), (snapshot) => {
@@ -24,6 +25,9 @@ export const ProductContextProvider = (props) => {
     });
     onValue(ref(getDatabase(), "Products/"), (snapshot) => {
       setProduct(Object.values(snapshot.val()));
+    });
+    onValue(ref(getDatabase(), "Favorite/"), (snapshot) => {
+      setFavorite(Object.values(snapshot.val()));
     });
   }, []);
   const getCart = async () => {
@@ -134,6 +138,53 @@ export const ProductContextProvider = (props) => {
 
     return item;
   };
+  
+  const getProductname = async (name) => {
+    var item = [];
+    for (var i = 1; i <= product.length; i++) {
+      if (name == product[i - 1].Product_name) {
+        item.push(product[i - 1]);
+      }
+    }
+
+    return item;
+  };
+    
+
+const addFavorite = (product_id) => {
+    var string = "fv" + number + "/Product_id/" + product_id;
+    console.log('--------------',string);
+    set(ref(getDatabase(), "Favorite/" + string), {
+      pd: product_id,
+    });
+  };
+const showFavorite = async () => {
+    var item = [];
+    var item2 = [];
+    var newitem = [];
+    console.log(favorite[0] + "asdasdddad");
+    for (var i = 1; i <= favorite.length; i++) {
+      if (favorite[i - 1].User_id == user_id) {
+        item = [favorite[i - 1]];
+
+        break;
+      }
+    }
+    item2 = Object.values(await item[0].Product_id);
+    for (var i = 1; i <= item2.length; i++) {
+      for (var j = 1; j <= product.length; j++) {
+        // console.log("-----------", product[j - 1].Product_id);
+        // console.log("---------------", item2[i - 1].id_pd);
+        if (product[j - 1].Product_id == item2[i - 1].pd) {
+          // console.log("-----------", product[j - 1].Product_id);
+          newitem.push(product[j - 1]);
+        } else {
+        }
+      }
+    }
+    console.log(newitem + "saddsada");
+    return newitem;
+  };
 
   return (
     <ProductContext.Provider
@@ -141,7 +192,7 @@ export const ProductContextProvider = (props) => {
         getCart,
         user_id,
         getProductBycate,
-        getProductDetailCart,getDetailCart,showDetailCart,dt_id
+        getProductDetailCart,getDetailCart,showDetailCart,dt_id,addFavorite,showFavorite,Detail_cart,getProductname
       }}
     >
       {children}
