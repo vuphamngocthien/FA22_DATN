@@ -3,14 +3,18 @@ import { Text, StyleSheet, TextInput, Button, Image,View,TouchableOpacity } from
 import { getDatabase, ref, set , push,onValue } from "firebase/database";
 import {UserContext} from '../../Components/UserContext'
 import { ProductContext } from "../../Components/ProductContext";
+import CheckBox from "@react-native-community/checkbox";
 
 function Sign_up(props) {
     const {navigation}=props;
     const [Username,setUsername]=useState('');
     const [UserEmail,setUserEmail]=useState('');
+    const [checkValidEmail,setcheckValidEmail]=useState(false);
     const [UserPassword,setUserPassword]=useState('');
     const [data,setdata]=useState([]);
-   const {user_idud,cart_ud,user_id}=useContext(UserContext);
+    const[check,setCheck]=useState(false);
+    const[check2,setCheck2]=useState(false);
+    const {user_idud,cart_ud,user_id}=useContext(UserContext);
    const {Detail_cart}=useContext(ProductContext)
     var a=0;
 
@@ -20,6 +24,30 @@ function Sign_up(props) {
         setdata(Object.values(snapshot.val()));
       });
     },[]);
+    const handleCheckEmail=(text)=>{
+      let re=/\S+@\S+\.\S+/;
+      let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+      setUserEmail(text);
+      if(re.test(text)|| regex.test(text)|| text ==''){
+        setcheckValidEmail(false)
+      }else{
+        setcheckValidEmail(true)
+      }
+    }
+    const Check=(text)=>{
+      setUsername(text);
+      if(text==''){
+        setCheck(true)
+      }else{
+        setCheck(false)}
+    }
+    const Check2=(text)=>{
+      setUserPassword(text);
+      if(text==''){
+        setCheck2(true)
+      }else{
+        setCheck2(false)}
+    }
 const Sign_up = () =>{
     a=data.length+1;
     var b='us'+a;
@@ -55,11 +83,10 @@ const Sign_up = () =>{
         Product_id:{a},
         Quantity:0,
         Status:'false',
-        Cart_id:c,
+        cart_id:c,
         dt_id:'dt'+t
 
     })
-    
 }
 
     return (
@@ -68,16 +95,20 @@ const Sign_up = () =>{
             <Text style={styles.welcome}>Let's Get Started</Text>
             <Text style={styles.continue}>Create an new account</Text>
             <View >
-                <TextInput style={styles.email} placeholder="Full Name"  onChangeText={setUsername} />
+                <TextInput style={styles.email} placeholder="Full Name" value={Username} onChangeText={(text)=>Check(text)} />
                 <Image source={require('../../assets/User.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,}} />
+                {check ?<Text style={{alignSelf:'flex-end',right:20,color:'red',fontWeight:'bold',bottom:-20}}>Cannot be left blank</Text>:<Text></Text>}
+
             </View>
             <View >
-                <TextInput style={styles.email} placeholder="Your Email" value={UserEmail}  onChangeText={setUserEmail} />
+                <TextInput style={styles.email} placeholder="Your Email" value={UserEmail}  onChangeText={(text)=>handleCheckEmail(text)} />
                 <Image source={require('../../assets/Message.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,marginBottom:20}} />
+                {checkValidEmail ?<Text style={{alignSelf:'flex-end',right:20,color:'red',fontWeight:'bold'}}>Wrong format email</Text>:<Text></Text>}
             </View>
             <View style={styles.password}>
-                <TextInput style={styles.email} placeholder="Password" value={UserPassword}  onChangeText={setUserPassword}/>
-                <Image source={require('../../assets/Password.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,marginBottom:20}} />
+                <TextInput style={styles.email} placeholder="Password" value={UserPassword} secureTextEntry={true}   onChangeText={(text)=>Check2(text)}/>
+                <Image source={require('../../assets/Password.png')}style={{ width: 25, height: 25, marginTop: -50,left:20,marginBottom:20}}/>
+                {check2 ?<Text style={{alignSelf:'flex-end',right:20,color:'red',fontWeight:'bold',bottom:-20}}>Cannot be left blank</Text>:<Text></Text>}
             </View>
             <TouchableOpacity >
             <View style={styles.btn_signin}>

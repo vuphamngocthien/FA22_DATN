@@ -26,9 +26,11 @@ const ProductNavigation = () => {
                     } else if (route.name == 'MarkerStack') {
                         return <Image style={styles.icon} source={require('../../assets/images/markerVector.png')} />
                     }  else if (route.name == 'Favorite') {
-                        return <Image style={styles.icon} source={require('../../assets/images/bellVector.png')} />
+                        return <Image style={styles.icon} source={require('../../assets/lover.png')} />
                     }else if (route.name == 'ProfileStack') {
                         return <Image style={styles.icon} source={require('../../assets/images/userVector.png')} />
+                    }else if (route.name == 'Order') {
+                        return <Image style={styles.icon} source={require('../../assets/images/sent.png')} />
                     }
                 },
             tabBarLabel:({focused}) =>{
@@ -40,6 +42,8 @@ const ProductNavigation = () => {
                     return <Image  style={styles.dot} source={require('../../assets/images/dot.png')}/>
                 } else if(route.name =='ProfileStack' && focused){
                     return <Image  style={styles.dot} source={require('../../assets/images/dot.png')}/>
+                } else if(route.name =='Order' && focused){
+                    return <Image  style={styles.dot} source={require('../../assets/images/dot.png')}/>
                 }
                 return null;
             }
@@ -47,13 +51,10 @@ const ProductNavigation = () => {
     >
 
             <Tab.Screen name="HomeStack" component={HomeStack} />
-            <Tab.Screen name="MarkerStack" component={MarkerStack} />
-            <Tab.Screen name="BellStack" component={BellStack} />
+            <Tab.Screen name="MarkerStack" component={MarkerStack}/>
             <Tab.Screen name="Favorite" component={Favorite}/>
-            <Tab.Screen name="ProfileStack" component={ProfileStack} />
-            <Tab.Screen name="Detailsproduct" component={Detailsproduct}/>
+            <Tab.Screen name="ProfileStack" component={ProfileStack}/>
             <Tab.Screen name="Order" component={Order}/>
-            <Tab.Screen name="EditUserProfile" component={EditUserProfile}/>
         </Tab.Navigator>
         /* </ScrollView> */
     

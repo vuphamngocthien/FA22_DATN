@@ -17,13 +17,14 @@ function Details({route}) {
         { value: 256, dungluong: 256 }
     ]
     const {getDetailCart}=useContext(ProductContext)
-    console.log('.................',route.params.data.Product_id);
-    var quantity=1;
-    var id_pd=route.params.data.Product_id;
-    var price=route.params.data.price;
+    const [quantity,setQuantity]=useState(1);
+    const [id_pd,setid_pd]=useState('');
+    const [price,setprice]=useState(0);
 
     const addtoCart= async()=>{
-        await getDetailCart(quantity,id_pd,price);
+        setprice(route.params.data.price);
+        console.log('>>>>>>>>>>>>>>>>>>',route.params.id);
+        await getDetailCart(quantity,route.params.id,price);
         ToastAndroid.show("Add to Cart Success!", ToastAndroid.SHORT);
     }
     return (

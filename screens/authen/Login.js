@@ -43,7 +43,7 @@ export const Login = ({ navigation }) => {
                 <Icon name={"email-outline"} style={{ fontSize: 26, position: "absolute", left: 20, bottom: 19 }} />
             </View>
             <View style={styles.password}>
-                <TextInput style={styles.email} placeholder="Password" value={Password} onChangeText={setPassword} />
+                <TextInput style={styles.email} placeholder="Password" secureTextEntry={true}  value={Password} onChangeText={setPassword} />
                 <Icon name={"lock-outline"} style={{ fontSize: 26, position: "absolute", left: 20, bottom: 19 }} />
             </View>
             <View style={styles.rm_password}>

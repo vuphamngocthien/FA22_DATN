@@ -39,10 +39,11 @@ function Contact({route}) {
         )
     }
    
-      
+      console.log('------------',dataProduct)
     const postCommend=() =>{
-        push(ref(getDatabase(),"Comment"),{
-            Comment_id:'cm'+dataProduct.length+1,
+        var a=dataProduct.length+1;
+        push(ref(getDatabase(),"Comment/"+"cm"+a),{
+            Comment_id:'cm'+a,
             Content:comment,
             Innitiated_date:date,
             Product_id:route.params.data.Product_id,
@@ -67,7 +68,24 @@ function Contact({route}) {
                 <View style={{paddingLeft:15}}>
                     <View style={{flexDirection:'row'}}>
                     <Text>Chất lượng, hài lòng</Text>
-                    <View style={{paddingLeft:20}}><CustomRatingBar/></View>
+                    <View style={{paddingLeft:20}}>
+                    <View style={styles.customRatingbar}>
+                {
+                    maxRating.map((item,key)=>{
+                        return(
+                            <Image
+                            key={item}
+                            style={styles.starImgStyle}
+                            source={
+                                item <= item.star ?{uri :startImgFilled}
+                                :{uri:startImgCorner}
+                            }
+                            />
+                            )
+                        })
+                    }
+                    </View>
+            </View>
                     </View>
                     
                     <Text>2022-06-20 14:12</Text>

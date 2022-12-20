@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, set, push, onValue,remove } from "firebase/database";
 import { UserContext } from "./UserContext";
+// import { getFavorite } from './ProductService';
 export const ProductContext = createContext();
 
 export const ProductContextProvider = (props) => {
@@ -11,28 +12,34 @@ export const ProductContextProvider = (props) => {
   const [CartID, setCartID] = useState("");
   const [dt_id,setdt_id]=useState('');
   const [product, setProduct] = useState([]);
+  const [fva,setFva]=useState([]);
   const [favorite, setFavorite] = useState([]);
   var item = [];
   useEffect(() => {
-    onValue(ref(getDatabase(), "Cart/"), (snapshot) => {
-     
-      setCart(Object.values(snapshot.val()));
-
-      //     console.log(Cart[0].Cart_id);
-    });
     onValue(ref(getDatabase(), "Detail_cart/"), (snapshot) => {
       setDetail_cart(Object.values(snapshot.val()));
     });
     onValue(ref(getDatabase(), "Products/"), (snapshot) => {
       setProduct(Object.values(snapshot.val()));
     });
-    onValue(ref(getDatabase(), "Favorite/"), (snapshot) => {
+    
+  }, []);
+  const cartget=async()=>{
+    await onValue(ref(getDatabase(), "Cart/"), (snapshot) => {
+     
+      setCart(Object.values(snapshot.val()));
+
+      //     console.log(Cart[0].Cart_id);
+    });
+  }
+  const fva1=async()=>{
+    await onValue(ref(getDatabase(), "Favorite/"), (snapshot) => {
       setFavorite(Object.values(snapshot.val()));
     });
-  }, []);
+  }
   const getCart = async () => {
+    await cartget();
     var item = [];
-    console.log(user_id);
     try {
       for (var i = 1; i <= Cart.length; i++) {
         if (user_id == Cart[i - 1].User_id) {
@@ -58,6 +65,7 @@ export const ProductContextProvider = (props) => {
       }
       // setData(Object.values(Detail_cart[0].Product_id));
 
+
       return item;
     } catch (error) {
       console.log("onGeetProductForHomePage error", error);
@@ -69,7 +77,7 @@ export const ProductContextProvider = (props) => {
     var item=[];
     var newitem=[]
     for(var i=1;i<=res.length;i++){
-      console.log(res[i-1].Status);
+    
       if(res[i-1].Status == 'false'){
         item=[res[i-1]];
         break;
@@ -97,8 +105,7 @@ export const ProductContextProvider = (props) => {
     const res= await getCart();
     var item=[];
     for(var i=1;i<=res.length;i++){
-      console.log(res[i-1].Status);
-      if(res[i-1].Status == 'false'){
+      if(res[i-1].Status == "false"){
         item=[res[i-1]];
         break;
       }
@@ -149,7 +156,15 @@ export const ProductContextProvider = (props) => {
 
     return item;
   };
-    
+  const removeItem =async (product_id) => {
+    var a='fv'+number+'/Product_id/'+product_id
+    await remove(ref(getDatabase(), "Favorite/"+a), {});
+    onValue(ref(getDatabase(), "Favorite/"), (snapshot) => {
+      setFavorite(Object.values(snapshot.val()));
+    });
+  showFavorite();
+    return true;
+  };
 
 const addFavorite = (product_id) => {
     var string = "fv" + number + "/Product_id/" + product_id;
@@ -159,10 +174,11 @@ const addFavorite = (product_id) => {
     });
   };
 const showFavorite = async () => {
+  await fva1();
     var item = [];
     var item2 = [];
     var newitem = [];
-    console.log(favorite[0] + "asdasdddad");
+    if(favorite.length != 0){
     for (var i = 1; i <= favorite.length; i++) {
       if (favorite[i - 1].User_id == user_id) {
         item = [favorite[i - 1]];
@@ -182,8 +198,11 @@ const showFavorite = async () => {
         }
       }
     }
-    console.log(newitem + "saddsada");
+    setFva(newitem);
     return newitem;
+    }else{
+      return []
+    }
   };
 
   return (
@@ -192,7 +211,7 @@ const showFavorite = async () => {
         getCart,
         user_id,
         getProductBycate,
-        getProductDetailCart,getDetailCart,showDetailCart,dt_id,addFavorite,showFavorite,Detail_cart,getProductname
+        getProductDetailCart,getDetailCart,showDetailCart,dt_id,addFavorite,showFavorite,Detail_cart,getProductname,removeItem,fva
       }}
     >
       {children}

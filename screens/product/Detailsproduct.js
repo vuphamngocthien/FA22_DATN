@@ -84,7 +84,7 @@ const danhgia=(a)=>{
     setrate(a);
     setdefaultRating(a);
 }
-console.log('=============',data.Product_picture)
+console.log('=============',id);
     return (
         <View style={styles.container}>
             <View style={styles.appbar}>
@@ -116,7 +116,7 @@ console.log('=============',data.Product_picture)
                 <View style={{ top: 40,height:400}} >
                     <NavigationContainer independent={true}>
                         <Tap.Navigator style={{backgroundColor:'red'}}>
-                            <Tap.Screen name='Details' component={Details} initialParams={{data}}/>
+                            <Tap.Screen name='Details' component={Details} initialParams={{data,id}}/>
                             <Tap.Screen name='Shops' component={Shops} />
                             <Tap.Screen name='Comment' component={Contact} initialParams={{data,defaultRating}}/>
                             <Tap.Screen name='Features' component={Features} />

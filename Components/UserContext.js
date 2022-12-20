@@ -10,6 +10,7 @@ export const UserContextProvider = ({props,children}) => {
   const[user_password,setuser_password]=useState('');
   const [address, setAddress] = useState("");
   const [Birth, setBirth] = useState("");
+  const [dtid,setdtid]=useState('');
   const [email, setEmail] = useState("");
   const [Phone_number, setPhone_number] = useState("");
   const [password, setPassword] = useState("");
@@ -76,7 +77,7 @@ const getUser = (id) => {
     console.log(item + "**********");
     return item;
   };
-  const UpdateUser = (name, birth, email, address, phone,) => {
+  const UpdateUser = (name, birth, email, address, phone,avatar) => {
     set(ref(getDatabase(), "User/" + user_id), {
       Address: address,
       Birth: birth,
@@ -86,9 +87,14 @@ const getUser = (id) => {
       Phone_number: phone,
       User_id: user_id,
       User_name: name,
-      User_picture:user_image,    
+      User_picture:avatar,    
     });
-
+    setUser_name(name);
+    setBirth(birth);
+    setEmail(email);
+    setAddress(address);
+    setPhone_number(phone);
+    setUser_image(avatar);
     return true;
   };
   

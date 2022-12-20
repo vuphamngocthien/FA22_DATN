@@ -1,50 +1,54 @@
-import {
-    TextInput,
-    Image,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
-    Button,
-    Pressable,
-  } from "react-native";
+import {TextInput,Image,SafeAreaView,StyleSheet,Text,View,Button,Pressable,TouchableOpacity,} from "react-native";
   import Icon from "react-native-vector-icons/MaterialCommunityIcons";
   import React from "react";
-  import ImagePicker from "react-native-image-picker";
-  
+  import  { firebase } from '@react-native-firebase/storage';
   import { UserContext } from "../../Components/UserContext";
-  import { useEffect, useState, useContext } from "react";
-  
+  import { useEffect, useState, useContext } from "react";  
+  import * as ImagePicker from 'expo-image-picker';
+import { storage } from "../../Components/FirebaseConfig";
+import {ref,uploadBytes}from 'firebase/storage'
+
   const EditUserProfile = (props) => {
     const { navigation } = props;
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
-    const selectImage = () => {
-      const options = {
-        maxWidth: 2000,
-        maxHeight: 2000,
-        storageOptions: {
-          skipBackup: true,
-          path: "images",
-        },
-      };
-      ImagePicker.showImagePicker(options, (response) => {
-        if (response.didCancel) {
-          console.log("User cancelled image picker");
-        } else if (response.error) {
-          console.log("ImagePicker Error: ", response.error);
-        } else if (response.customButton) {
-          console.log("User tapped custom button: ", response.customButton);
-        } else {
-          const source = { uri: response.uri };
-          console.log(source);
-          setImage(source);
-        }
+    const [name, setUser_name] = useState("");
+    const [birth, setBirth] = useState("");
+    const [Email, setEmail] = useState("");
+    const [Address, setAddress] = useState("");
+    const [Phone, setPhone] = useState("");
+    const [checkValidEmail,setcheckValidEmail]=useState(false);
+    const [checkPhone,setcheckPhone]=useState(false);
+    const [check,setCheck]=useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All, 
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,   
       });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
     };
   
-    const [data, setData] = useState([]);
+    console.log('============',image);
+
+    const uploadImage = async () => {
+     if(image ==null) return ;
+     const imageRef=ref(storage,`imagesUser/4`);
+     uploadBytes(imageRef,image[0].uri).then(()=>{
+      console.log('upload than cong')
+     })
+    };
+
+
     const {
       user_id,
       user_money,
@@ -56,20 +60,16 @@ import {
       email,
       Phone_number,
       UpdateUser,
+      data,
     } = useContext(UserContext);
   
-    const [name, setUser_name] = useState("");
-    const [birth, setBirth] = useState("");
-    const [Email, setEmail] = useState("");
-    const [Address, setAddress] = useState("");
-    const [Phone, setPhone] = useState("");
     const update = async () => {
-      const res = await UpdateUser(name, birth, Email, Address, Phone);
+      const res = await UpdateUser(name, birth, Email, Address, Phone,image);
       if (res == true) {
         console.log("chinh sua thanh cong");
       }
     };
-  
+  console.log('???????',user_name)
     useEffect(() => {
       setUser_name(user_name);
       setBirth(Birth);
@@ -77,10 +77,38 @@ import {
       setAddress(address);
       setPhone(Phone_number);
     }, []);
+
+    const checkten=(text)=>{
+      setUser_name(text);
+      if(text==''){
+        setCheck(true)
+      }else{setCheck(false)}
+    }
+    const handleCheckEmail=(text)=>{
+      let re=/\S+@\S+\.\S+/;
+      let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+      setEmail(text);
+      if(re.test(text)|| regex.test(text)|| text ==''){
+        setcheckValidEmail(false)
+      }else{
+        setcheckValidEmail(true)
+      }
+    }
+    const checkPhoneleng=(text)=>{
+      setPhone(text)
+      if(text.length >11){
+        setcheckPhone(true)
+      }else{setcheckPhone(false)}
+    }
+    const onRefresh = () => {
+      setRefreshing(true);
+
+      setRefreshing(false);
+  };
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={styles.orderBar}>
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={()=>navigation.goBack()}>
             <View style={styles.Icon}>
               <Image
                 style={styles.Icon}
@@ -93,16 +121,28 @@ import {
         </View>
         <View style={styles.container}>
           <View style={styles.userProfileImageContainer}>
-            <Image
+            <TouchableOpacity onPress={pickImage}>
+            {
+              image ==null ?
+              <Image
+                style={styles.userProfileImage}
+                source={require("../../assets/userImg1.png")}
+                // source={{uri: image}}
+              ></Image>:<Image
               style={styles.userProfileImage}
-              source={require("../../assets/userImg1.png")}
+              source={{uri: image}}
             ></Image>
+            }
+            </TouchableOpacity>
+            {/* { <Image  style={{width: 170 , height: 200}}/>} */}
+            {!uploading ? <Button title='Upload Image' onPress={uploadImage} />: <ActivityIndicator size={'small'} color='black' />}
           </View>
           <View style={styles.EditContainer}>
             <View style={styles.NameEdit}>
               <TextInput
                 style={styles.NameInput}
-                onChangeText={setUser_name}value={name}
+                value={name}
+                onChangeText={(text)=>checkten(text)}
                 />
                 <Icon
                   name={"account-outline"}
@@ -114,6 +154,7 @@ import {
                   }}
                 />
               </View>
+                {check ? <Text style={{alignSelf:'flex-end',right:20,color:'red',fontWeight:'bold',bottom:5}}>Cannot be left blank</Text>:<Text></Text>}
               <View style={styles.BirthEdit}>
                 <TextInput
                   style={styles.BirthInput}
@@ -126,14 +167,14 @@ import {
                     fontSize: 24,
                     position: "absolute",
                     left: 24,
-                    bottom: 24,
+                    bottom: 30,
                   }}
                 />
               </View>
               <View style={styles.EmailEdit}>
                 <TextInput
                   style={styles.EmailInput}
-                  onChangeText={setEmail}
+                  onChangeText={(text)=>handleCheckEmail(text)}
                   value={Email}
                 />
                 <Icon
@@ -146,6 +187,7 @@ import {
                   }}
                 />
               </View>
+              {checkValidEmail ?<Text style={{alignSelf:'flex-end',right:20,color:'red',fontWeight:'bold'}}>Wrong format email</Text>:<Text></Text>}
               <View style={styles.AddressEdit}>
                 <TextInput
                   style={styles.AddressInput}
@@ -158,14 +200,14 @@ import {
                     fontSize: 24,
                     position: "absolute",
                     left: 24,
-                    bottom: 24,
+                    bottom: 30,
                   }}
                 />
               </View>
               <View style={styles.PhoneEdit}>
                 <TextInput
                   style={styles.PhoneInput}
-                  onChangeText={setPhone}
+                  onChangeText={(text)=>checkPhoneleng(text)}
                   value={Phone}
                 />
                 <Icon
@@ -178,9 +220,9 @@ import {
                   }}
                 />
               </View>
-              <View style={styles.btn_Save}>
-                <Button title="Save" color="red" onPress={update}></Button>
-              </View>
+              {checkPhone ?<Text style={{alignSelf:'flex-end',right:20,color:'red',fontWeight:'bold'}}>Must be 11 digits</Text>:<Text></Text>}
+               
+                <Button title="Save" color="orange" onPress={update}></Button>
             </View>
           </View>
         </SafeAreaView>
@@ -208,6 +250,7 @@ import {
     
       TextOrderBar: {
         fontSize: 18,
+        fontWeight:'bold',
         alignSelf: "center",
         marginLeft: "40%",
         marginBottom: 18,
@@ -284,9 +327,23 @@ import {
       },
       btn_Save: {
         height: 57,
-        width: 343,
-        backgroundColor: "orange",
+        width: 250,
+        backgroundColor: "red",
         justifyContent: "center",
         alignItems: "center",
       },
+      EditContainer:{
+      
+      },
+      BirthEdit:{
+        paddingBottom:10
+      },
+      AddressEdit:{
+        paddingBottom:10,
+      },
+      Icon:{
+        left:10,
+        top:5
+      }
     });
+
